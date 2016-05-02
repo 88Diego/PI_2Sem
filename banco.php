@@ -5,15 +5,7 @@ include('session.php');
 $usuario = $_POST['username'];
 $senha = $_POST['password'];
 
-$dbhost = "koo2dzw5dy.database.windows.net";
-$db = "SenaQuiz";
-$user = "TSI";
-$password = "SistemasInternet123";
-$dsn = "Driver={SQL Server};Server=$dbhost;Port=1433;Database=$db;";
-
-$connect = odbc_connect($dsn,
-						$user,
-						$password);
+include('conexao.php');
 
 
 $query = 
@@ -32,12 +24,22 @@ $query =
 // odbc_result_all($consulta2);
 
 
+// insert
+// INSERT INTO Professor (nome, email, senha, idSenac, tipo )
+// VALUES (
+// 'Diego', 
+// 'teste@teste.com',
+// HASHBYTES('SHA1', 'diego' ),
+// 'teste',
+// 'A'
+// )
+
+
 $consulta = odbc_exec($connect,$query);
 $resultado = odbc_num_rows($consulta);	
 
 if( $resultado > 0 ){
 	$resultado = odbc_fetch_array($consulta);
-	print_r($resultado);
 
 	$_SESSION['showMenu'] = true;
 	$_SESSION['codProfessor'] = $resultado['codProfessor'];
@@ -49,8 +51,8 @@ if( $resultado > 0 ){
 	header('Location:admin.php');	
 }
 else {
+	// session_destroy();	
 	$_SESSION['msgError'] = "Login inválido.";
-	session_destroy();	
 	header('Location:index.php');		
 }
 

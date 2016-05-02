@@ -266,7 +266,7 @@ form:after {
 
 #content form {
     margin: 0 20px;
-    position: relative
+    position: relative;
 }
 
 #content form input[type="text"],
@@ -308,11 +308,11 @@ form:after {
 }
 
 #username {
-    background-position: 10px 10px !important
+    background-position: 10px 10px !important;
 }
 
 #password {
-    background-position: 10px -53px !important
+    background-position: 10px -53px !important;
 }
 
 #content form input[type="submit"] {
@@ -379,7 +379,7 @@ form:after {
     height: 35px;
 }
 
-#menuCrud{
+#menuCrud, #grid, #novo-edita{
     width: 1024px;
     margin: 0 auto;
 }
@@ -389,4 +389,12 @@ form:after {
     display: inline-block;
     text-align: center;
     border: solid 1px blue;
+}
+
+#novo-edita label{
+    display: block;
+}
+
+#novo-edita input[name=alternativas]{
+    display: block;
 }
