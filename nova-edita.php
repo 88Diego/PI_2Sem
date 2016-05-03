@@ -1,4 +1,4 @@
-<form action="salva-form.php" method="get" id="novo-edita">
+<form action="salva-form.php" enctype="multipart/form-data" method="post" id="novo-edita" >
 	<input type="hidden" id="idQuestao" value="<?php $codQuestao;?>">
 	<label for="imagem">
 		Imagem da Questão:
@@ -10,7 +10,7 @@
 	</label>
 	<label for="assunto">
 		Assunto da Questão:
-		<select name="assunto" id="assunto">
+		<select name="codAssunto" id="assunto">
 			<option value="0">Assunto 0</option>
 			<option value="1">Assunto 1</option>
 			<option value="2">Assunto 2</option>
@@ -19,7 +19,7 @@
 	</label>
 	<label for="tipoQuestao">
 		Tipo da Questão:
-		<select name="tipoQuestao" id="tipoQuestao">
+		<select name="codTipoQuestao" id="tipoQuestao">
 			<option value="a">Alternativas</option>
 			<option value="t">Texto Objetivo</option>
 			<option value="v">Verdadeiro ou Falso</option>

@@ -26,13 +26,16 @@ include('session.php');
 					"SELECT
 						*
 					FROM
-						questao";
+						questao
+					LEFT JOIN 
+						imagem  
+					ON 
+						(questao.codImagem = imagem.codImagem)";
 
 			$consulta = odbc_exec($connect,$query);
 			$resultado = odbc_num_rows($consulta);	
 
 			if( $resultado > 0 ){
-				$resultado = odbc_fetch_array($consulta);
 				include('grid.php');
 				include('nova-edita.php');
 			}
