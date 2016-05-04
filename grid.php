@@ -1,4 +1,4 @@
-﻿<table id="grid">
+﻿<table id="grid" class="table-striped">
 	<caption>Grid de perguntas</caption>
 	<thead>
 		<th>codQuestao</th>
