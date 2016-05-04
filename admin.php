@@ -6,9 +6,13 @@ include('session.php');
 		<meta charset="utf-8">
 		<title>Logado</title>
 		<link rel="stylesheet" type="text/css" href="assets/css/login.css" />
+        <link href="css/bootstrap.min.css" rel="stylesheet">
+	
 	</head>
 	<body>
-		<div class="container">
+    <script src="js/jquery.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+		<div class="container interna">
 		<?php
 		if(isset($_SESSION['showMenu']) && $_SESSION['showMenu']) {
 			?>
