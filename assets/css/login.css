@@ -286,7 +286,7 @@ form:after {
     -ms-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
-    background: #ffffff url(../img/icones.png) no-repeat;
+    background: #ffffff url(../../../../../../xampp/htdocs/PI_2Sem-master/assets/img/icones.png) no-repeat;
     border: 1px solid #c1e5ea;
     color: #563D64;
     font: 13px Helvetica, Arial, sans-serif;
@@ -350,7 +350,7 @@ form:after {
     background: -webkit-linear-gradient(top, #9fedf8 0%, #00BBD4 100%);
     background: -o-linear-gradient(top, #9fedf8 0%, #00BBD4 100%);
     background: -ms-linear-gradient(top, #9fedf8 0%, #00BBD4 100%);
-    background: linear-gradienttop, #9fedf8 0%, #00BBD4 100%);
+    background: linear-gradient(top, #9fedf8 0%, #00BBD4 100%);
     filter: progid: DXImageTransform.Microsoft.gradient( startColorstr='#9fedf8', endColorstr='#00BBD4', GradientType=0);
 }
 
@@ -388,7 +388,7 @@ form:after {
     width: 24%;
     display: inline-block;
     text-align: center;
-    border: solid 1px blue;
+    border: solid 1px #09a3b8;
 }
 
 #novo-edita label{
@@ -398,12 +398,40 @@ form:after {
 #novo-edita input[name=alternativas]{
     display: block;
 }
+#novo-edita{
+	padding:5%;
+}
 
 #grid img{
     width: 50px;
     height: 50px;
     display: block;
+	padding: 10px;
 }
 .container.interna{
 	background:none;
 }
+#grid{
+	display:block;
+	border: solid #ccc 1px;
+	-webkit-border-radius: 10px;
+	-moz-border-radius: 10px;
+	border-radius: 10px;
+}
+
+#grid th {
+	padding: 1%;
+} 
+
+#grid td{
+	text-align: center;	
+	line-height: 25px;
+	vertical-align: middle;
+	padding: 10px;
+}
+
+#grid td.questao{
+	text-align:left;
+	width:25%;
+	}
+
