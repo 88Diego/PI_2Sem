@@ -17,8 +17,8 @@ include('session.php');
 		if(isset($_SESSION['showMenu']) && $_SESSION['showMenu']) {
 			?>
 			<nav id="menuCrud">	
-				<a href="#">Cadastrar Nova Questão</a>			
-				<a href="#">Ver tabela de Questões</a>			
+				<a href="?page=form">Cadastrar Nova Questão</a>			
+				<a href="?page=grid">Ver tabela de Questões</a>			
 				<a href="index.php?logout=1">Sair</a>
 			</nav>
 
@@ -40,8 +40,11 @@ include('session.php');
 			$resultado = odbc_num_rows($consulta);	
 
 			if( $resultado > 0 ){
-				include('grid.php');
-				include('nova-edita.php');
+				if (isset($_GET['page']) && $_GET['page'] == "grid") {
+					include('grid.php');
+				} else if (isset($_GET['page']) && $_GET['page'] == "form") {
+					include('nova-edita.php');
+				}				
 			}
 			else {
 				echo "Sem resultados.";
