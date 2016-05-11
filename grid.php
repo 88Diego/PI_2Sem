@@ -1,14 +1,13 @@
-﻿<table id="grid" class="table-striped">
-	<caption>Grid de perguntas</caption>
+<table id="grid" class="table-striped">
 	<thead>
-		<th>codQuestao</th>
-		<th>textoQuestao</th>
-		<th>codAssunto</th>
-		<th>codImagem</th>
-		<th>codTipoQuestao</th>
+		<th>Código da Questão</th>
+		<th>Titulo Questão</th>
+		<th>Código do Assunto</th>
+		<th>Imagem</th>
+		<th>Tipo de Questão</th>
 		<th>codProfessor</th>
-		<th>ativo</th>
-		<th>dificuldade</th>
+		<th>Ativo?</th>
+		<th>Dificuldade</th>
 	</thead>
 	<tbody>
 	<?php
@@ -16,10 +15,10 @@
        while ($resultado = odbc_fetch_array($consulta)) {      	
 		echo "<tr>";
 			echo "<td>".$resultado['codQuestao']."</td>";
-			echo "<td>".$resultado['textoQuestao']."</td>";
+			echo "<td class=\"questao\">".$resultado['textoQuestao']."</td>";
 			echo "<td>".$resultado['codAssunto']."</td>";
 			$imageData = base64_encode($resultado['bitmapImagem']);
-			echo "<td><img width=\"50\" height=\"50\" src=\"data:image/jpeg;base64,".$imageData."\"></td>";
+			if(!empty($imageData)){echo "<td><img width=\"50\" height=\"50\" src=\"data:image/jpeg;base64,".$imageData."\"></td>";}
 			echo "<td>".$resultado['codTipoQuestao']."</td>";
 			echo "<td>".$resultado['codProfessor']."</td>";
 			echo "<td>".$resultado['ativo']."</td>";
@@ -29,3 +28,5 @@
     ?>
 	</tbody>
 </table>
+
+<h3><?php if($_SESSION['SUCESSO']){echo "Questão cadastrada com sucesso!";}?></h3>

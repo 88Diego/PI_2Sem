@@ -244,6 +244,10 @@ form:after {
     width: 100%;
 }
 
+.container h3{
+	text-align: center;
+}
+
 #content:after {
     -webkit-transform: rotate(2deg);
     -moz-transform: rotate(2deg);
@@ -385,10 +389,11 @@ form:after {
 }
 
 #menuCrud a{
-    width: 24%;
+    width: 33%;
     display: inline-block;
     text-align: center;
-    border: solid 1px #09a3b8;
+	line-height: 50px;
+	vertical-align: middle;
 }
 
 #novo-edita label{

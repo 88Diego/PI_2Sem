@@ -6,8 +6,8 @@
 	$resultAss=odbc_exec($connect,$consultAss);
 	?>
 		Assunto da Questão:
-		<select name="codAssunto" id="assunto" class="form-control">
-			<option>Selecione o Assunto</option>
+		<select name="codAssunto" id="assunto" class="form-control" required>
+			<option value="">Selecione o Assunto</option>
 			<?php while($assOpt=odbc_fetch_array($resultAss)){?>
                 <option value="<?php echo $assOpt['codAssunto']?>"><?php echo $assOpt['descricao'] ?></option>
                 <?php } ?>
@@ -15,7 +15,8 @@
 	</label>
 	<label for="tipoQuestao">
 		Tipo da Questão:
-		<select name="codTipoQuestao" id="tipoQuestao" class="form-control">
+		<select required name="codTipoQuestao" id="tipoQuestao" class="form-control">
+			<option value="">Selecione o tipo da questão</option>
 			<option value="a">Alternativas</option>
 			<option value="t">Texto Objetivo</option>
 			<option value="v">Verdadeiro ou Falso</option>
@@ -23,7 +24,8 @@
 	</label>
 	<label for="">
 		Dificuldade da Questão:
-		<select name="dificuldade" id="dificuldade" class="form-control">
+		<select name="dificuldade" id="dificuldade" class="form-control" required>
+			<option value="">Selecione a dificuldade da questão</option>
 			<option value="f">Fácil</option>
 			<option value="m">Médio</option>
 			<option value="d">Difícil</option>
@@ -31,14 +33,14 @@
 	</label>
 	<label for="txQuestao">
 		Título da Questão:
-		<input type="text" id="txQuestao" name="txQuestao" class="form-control">
+		<input type="text" id="txQuestao" name="txQuestao" class="form-control" required>
 	</label>
 	
 	<label for="ativo">
 		Pergunta ativa?
 		<input type="checkbox" id="ativo" name="ativo" value="1" checked>
 	</label>
-	<label for="alternativas">
+	<label for="alternativas" id="alternativas">
 		<input type="text" name="alternativas0" class="form-control" placeholder="Alternativa 1">
 		<input type="text" name="alternativas1" class="form-control" placeholder="Alternativa 2">
 		<input type="text" name="alternativas2" class="form-control" placeholder="Alternativa 3">
