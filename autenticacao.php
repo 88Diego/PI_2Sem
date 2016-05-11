@@ -41,6 +41,7 @@ $resultado = odbc_num_rows($consulta);
 if( $resultado > 0 ){
 	$resultado = odbc_fetch_array($consulta);
 
+	$_SESSION['Logado'] = true;
 	$_SESSION['showMenu'] = true;
 	$_SESSION['codProfessor'] = $resultado['codProfessor'];
 	$_SESSION['nomeProfessor'] = $resultado['nome'];

@@ -23,6 +23,7 @@
 			echo "<td>".$resultado['codProfessor']."</td>";
 			echo "<td>".$resultado['ativo']."</td>";
 			echo "<td>".$resultado['dificuldade']."</td>";
+			echo "<td><a href='admin.php?page=form&codquestao=".$resultado['codQuestao']."'>Editar</a></td>";
 		echo "</tr>";
        }
     ?>
