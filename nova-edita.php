@@ -1,123 +1,117 @@
 <?php 
-if(isset($_GET['codquestao'])){
-	$codQuestao = $_GET['codquestao'];	
-
-	$queryUpdate = 
-			"SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) WHERE codQuestao = ".$codQuestao."";
-
-	$consultaUpdate = odbc_exec($connect,$queryUpdate);
-	$resultadoUpdate = odbc_num_rows($consultaUpdate);
-	while ($resultadoUpdate = odbc_fetch_array($consultaUpdate)) {
-		$textoQuestao = $resultadoUpdate['textoQuestao'];
-		$codAssunto = $resultadoUpdate['codAssunto'];
-		$imageData = base64_encode($resultadoUpdate['bitmapImagem']);			
-		$codTipoQuestao =  $resultadoUpdate['codTipoQuestao'];
-		$codProfessor = $resultadoUpdate['codProfessor'];
-		$dificuldade = $resultadoUpdate['dificuldade'];
+if( isset( $_GET['codquestao'] ) ){
+	$id_questao = $_GET['codquestao'];
+	$query_questao = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) WHERE codQuestao = ".$id_questao."";
+	$array_questao = odbc_exec( $connect, $query_questao );
+	while ($linhas_questao = odbc_fetch_array( $array_questao )) {
+		$textoQuestao = $linhas_questao['textoQuestao'];
+		$codAssunto = $linhas_questao['codAssunto'];
+		$imageData = base64_encode($linhas_questao['bitmapImagem']);			
+		$codTipoQuestao =  $linhas_questao['codTipoQuestao'];
+		$id_professor = $linhas_questao['codProfessor'];
+		$dificuldade = $linhas_questao['dificuldade'];
 	}
 } else{
-	// zero variaveis do formulario
+	$textoQuestao = NULL;
+	$codAssunto = NULL;
+	$codTipoQuestao = NULL;
+	$textoQuestao = NULL;
+	$imageData = NULL;
+	$dificuldade = NULL;
 }
 ?>
 
 <form action="salva-form.php" enctype="multipart/form-data" method="post" id="novo-edita" >
-	<input type="hidden" id="codQuestao" value="<?php echo $codQuestao; ?>">
+	<input type="hidden" id="id_questao" value="<?php echo $id_questao; ?>">
     <label for="assunto">
-    <?php 
-		$consultAss=("SELECT codAssunto, descricao FROM assunto");
-		$resultAss=odbc_exec($connect,$consultAss);
-	?>
-<<<<<<< HEAD
+	    <?php 
+			$query_assunto = "SELECT codAssunto, descricao FROM assunto ORDER BY descricao";
+			$resultado_assunto = odbc_exec( $connect, $query_assunto );
+		?>
 		Assunto da Questão:
 		<select name="codAssunto" id="assunto" class="form-control" required>
 			<option value="">Selecione o Assunto</option>
-			<?php while($assOpt=odbc_fetch_array($resultAss)){?>
-                <option value="<?php echo $assOpt['codAssunto']?>"><?php echo $assOpt['descricao'] ?></option>
-                <?php } ?>
+			<?php while( $opcoes_assunto = odbc_fetch_array( $resultado_assunto ) ){?>
+                <option value="<?php echo $opcoes_assunto['codAssunto']?>" <?=( $opcoes_assunto['codAssunto'] == $codAssunto ) ? "selected" : "" ?> ><?php echo $opcoes_assunto['descricao'] ?></option>
+            <?php } ?>
 		</select>
 	</label>
-	<label for="tipoQuestao">
-		Tipo da Questão:
-		<select required name="codTipoQuestao" id="tipoQuestao" class="form-control">
-			<option value="">Selecione o tipo da questão</option>
-			<option value="a">Alternativas</option>
-			<option value="t">Texto Objetivo</option>
-			<option value="v">Verdadeiro ou Falso</option>
-		</select>
-	</label>
-	<label for="">
-		Dificuldade da Questão:
-		<select name="dificuldade" id="dificuldade" class="form-control" required>
-			<option value="">Selecione a dificuldade da questão</option>
-			<option value="f">Fácil</option>
-			<option value="m">Médio</option>
-			<option value="d">Difícil</option>
-=======
-	Assunto da Questão:
-	<select name="codAssunto" id="assunto" class="form-control">
-		<option>Selecione o Assunto</option>
-		<?php while($assOpt=odbc_fetch_array($resultAss)){?>
-            <option value="<?php echo $assOpt['codAssunto']?>" <?=($assOpt['codAssunto']==$codAssunto)?"selected":""?> ><?php echo $assOpt['descricao'] ?></option>
 
-        <?php } ?>
-	</select>
-	</label>
 	<label for="tipoQuestao">
 		Tipo da Questão:
 		<?php 
-			$consultQuestao=("SELECT codTipoQuestao, descricao FROM tipoQuestao");
-			$resultQuestao=odbc_exec($connect,$consultQuestao);
+			$consultQuestao = "SELECT codTipoQuestao, descricao FROM tipoQuestao ORDER BY descricao";
+			$resultQuestao = odbc_exec( $connect, $consultQuestao );
 		?>
-
 		<select name="codTipoQuestao" id="tipoQuestao" class="form-control">
-			<option>Selecione o Tipo da Questão</option>
-			<?php while($tipoQuestao = odbc_fetch_array($resultQuestao)){?>
-	            <option value="<?php echo $tipoQuestao['codTipoQuestao']?>" <?=(strtoupper($tipoQuestao['codTipoQuestao']) == strtoupper($codTipoQuestao))?"selected":""?> ><?php echo $tipoQuestao['descricao'] ?></option>
+			<option value="">Selecione o Tipo da Questão</option>
+			<?php while( $tipoQuestao = odbc_fetch_array( $resultQuestao ) ){?>
+	            <option value="<?php echo $tipoQuestao['codTipoQuestao']?>" <?=( strtoupper( $tipoQuestao['codTipoQuestao'] ) == strtoupper( $codTipoQuestao ) )? "selected" : "" ?> ><?php echo $tipoQuestao['descricao'] ?></option>
 
 	    <?php } ?>
 	    </select>
 	</label>
-	<label for="">
+
+	<label for="dificuldade">
 		Dificuldade da Questão:
-		<?php 
-			$consultQuestao=("SELECT codTipoQuestao, descricao FROM tipoQuestao");
-			$resultQuestao=odbc_exec($connect,$consultQuestao);
-		?>
 		<select name="dificuldade" id="dificuldade" class="form-control">
-			<option>Selecione a Dificuldade</option>
-			<option value="f" <?=(($dificuldade == "F")||($dificuldade == "f"))?"selected":""?>>Fácil</option>
-			<option value="m" <?=(($dificuldade == "M")||($dificuldade == "m"))?"selected":""?>>Médio</option>
-			<option value="d" <?=(($dificuldade == "D")||($dificuldade == "d"))?"selected":""?>>Difícil</option>
->>>>>>> 50f16c3cc906a0826c82eabe3a8be9176db562dc
+			<option value="">Selecione a Dificuldade</option>
+			<option value="D" <?=(($dificuldade == "D")||($dificuldade == "d"))?"selected":""?>>Difícil</option>
+			<option value="F" <?=(($dificuldade == "F")||($dificuldade == "f"))?"selected":""?>>Fácil</option>
+			<option value="M" <?=(($dificuldade == "M")||($dificuldade == "m"))?"selected":""?>>Médio</option>
 		</select>
 	</label>
+
 	<label for="txQuestao">
 		Título da Questão:
-<<<<<<< HEAD
 		<input type="text" id="txQuestao" name="txQuestao" class="form-control" required>
 	</label>
 	
-	<label for="ativo">
-		Pergunta ativa?
-		<input type="checkbox" id="ativo" name="ativo" value="1" checked>
-	</label>
 	<label for="alternativas" id="alternativas">
-		<input type="text" name="alternativas0" class="form-control" placeholder="Alternativa 1">
-		<input type="text" name="alternativas1" class="form-control" placeholder="Alternativa 2">
-		<input type="text" name="alternativas2" class="form-control" placeholder="Alternativa 3">
-		<input type="text" name="alternativas3" class="form-control" placeholder="Alternativa 4">
-=======
-		<input type="text" id="txQuestao" name="txQuestao" class="form-control" value="<?=(isset($textoQuestao))?"echo $textoQuestao;":""?>">
+		Alternativas:	
+		<div class="verdadeiro_falso">
+			<!-- dois input radio verdadeiro ou falso -->
+		</div>
+		<div class="alternativas">
+			<input type="text" name="txAlternativas" class="form-control" value="<?=( isset( $txAlternativas )) ? "echo $txAlternativas;" : "" ?>">
+			<!-- um input padrào, checkbox para saber qual [e a correta e botoes de add e remove -->
+		</div>
+		<div class="text_objetivo">
+			<input type="text" name="txAlternativas" class="form-control" value="<?=( isset( $txAlternativas )) ? "echo $txAlternativas;" : "" ?>">
+			<!-- um input padrao, todos sáo corretos, botao add e rtemove -->
+		</div>		
+		<a href="javascript:void(0)" id="addAlternativas">Adicionar</a>
+		<a href="javascript:void(0)" id="delAlternativas">Remover</a>
 	</label>
-	
-	<label for="alternativas">
-		<input type="text" name="alternativas0" class="form-control" placeholder="Alternativa 1">		
->>>>>>> 50f16c3cc906a0826c82eabe3a8be9176db562dc
-	</label>
+
     <label for="imagem">
 		Imagem da Questão:
 		<input type="file" id="imagem" name="imagem">		
-	</label>
-	<?php echo "<img width=\"50\" height=\"50\" src=\"data:image/jpeg;base64,".$imageData."\">"; ?>
+		<?php if( !empty( $imageData ) ){
+			echo "<img width=\"50\" height=\"50\" src=\"data:image/jpeg;base64,".$imageData."\">"; 
+		}?>
+	</label>	
+
 	<input type="submit" value="Salvar nova" class="btn btn-default">
 </form>
+
+<script>
+	$(document).ready(function(){
+		$('#alternativas a').on('click', function(){
+			if ($(this).attr('id') == "addAlternativas") {
+				// cria input
+			} else{
+				// remove ultimo input
+			}
+		});
+
+		// checar tipo da questao e exibir tipo de alternativa
+		// if( ) {
+		// 	// verdadeiro e falso
+		// } else if(){
+		// 	// alternativas
+		// } else {
+		// 	// texto objetivo
+		// }
+	});
+</script>

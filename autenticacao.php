@@ -8,20 +8,7 @@ $senha = $_POST['password'];
 include('conexao.php');
 
 
-$query = 
-		"SELECT 
-			codProfessor, nome, tipo, email 
-		FROM 
-			professor 
-		WHERE 
-			email = '$usuario' 
-		AND 
-			senha = HASHBYTES('SHA1', '$senha' )";
-
-// $query2 = "SELECT codProfessor, nome, tipo, email FROM professor WHERE email= '?' ";
-// $preparado = odbc_prepare($connect, $query);
-// $consulta2 = odbc_execute($preparado, array ( $usuario ));
-// odbc_result_all($consulta2);
+$query = "SELECT codProfessor, nome, tipo, email FROM professor WHERE email = '$usuario' AND senha = HASHBYTES('SHA1', '$senha' )";
 
 
 // insert
