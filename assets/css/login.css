@@ -442,3 +442,10 @@ form:after {
 	width:25%;
 	}
 
+#paginacao{
+    position: relative;
+    left: 50%;
+    display: inline-block;
+    transform: translateX(-50%);
+    margin: 20px;
+}
