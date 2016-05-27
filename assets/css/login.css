@@ -417,6 +417,7 @@ form:after {
 }
 .container.interna{
 	background:#fff;
+    height: inherit;
 }
 #grid{
 	display:block;

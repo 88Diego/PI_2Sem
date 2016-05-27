@@ -62,7 +62,7 @@ if( isset( $_GET['codquestao'] ) ){
 			$consultQuestao = "SELECT codTipoQuestao, descricao FROM tipoQuestao ORDER BY descricao";
 			$resultQuestao = odbc_exec( $connect, $consultQuestao );
 		?>
-		<select name="codTipoQuestao" id="tipoQuestao" class="form-control">
+		<select name="codTipoQuestao" id="tipoQuestao" class="form-control" required>
 			<option value="">Selecione o Tipo da Questão</option>
 			<?php while( $tipoQuestao = odbc_fetch_array( $resultQuestao ) ){?>
 	            <option value="<?php echo $tipoQuestao['codTipoQuestao']?>" <?=( strtoupper( $tipoQuestao['codTipoQuestao'] ) == strtoupper( $codTipoQuestao ) )? "selected" : "" ?> ><?php echo $tipoQuestao['descricao'] ?></option>
@@ -73,7 +73,7 @@ if( isset( $_GET['codquestao'] ) ){
 
 	<label for="dificuldade">
 		Dificuldade da Questão:
-		<select name="dificuldade" id="dificuldade" class="form-control">
+		<select name="dificuldade" id="dificuldade" class="form-control" required>
 			<option value="">Selecione a Dificuldade</option>
 			<option value="D" <?=(($dificuldade == "D")||($dificuldade == "d"))?"selected":""?>>Difícil</option>
 			<option value="F" <?=(($dificuldade == "F")||($dificuldade == "f"))?"selected":""?>>Fácil</option>
@@ -89,8 +89,8 @@ if( isset( $_GET['codquestao'] ) ){
 	<label for="alternativas" id="alternativas" style="display: none;">
 		Alternativas:	
 		<div class="verdadeiro_falso dft" style="display: none;">
-			<input type="radio" name="verdadeirofalso" value="V">
-			<input type="radio" name="verdadeirofalso" value="F">
+			<input type="radio" name="verdadeirofalso" value="V"> Verdadeiro
+			<input type="radio" name="verdadeirofalso" value="F"> Falso
 		</div>
 		<div class="alternativas dft" style="display: none;">
 			<a href="javascript:void(0)" class="add alternativas">Adicionar Campo</a>
@@ -111,7 +111,8 @@ if( isset( $_GET['codquestao'] ) ){
 		}?>
 	</label>	
 
-	<input type="submit" value="Salvar nova" class="btn btn-default">
+	<input type="submit" value="Salvar" class="btn btn-default">
+	<?php echo"<a href='admin.php?page=deleta&codquestao=".$_GET['codquestao']."'>Deletar</a>"?>
 </form>
 
 <script>
