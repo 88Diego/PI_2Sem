@@ -112,7 +112,13 @@ if( isset( $_GET['codquestao'] ) ){
 	</label>	
 
 	<input type="submit" value="Salvar" class="btn btn-default">
-	<?php echo"<a href='admin.php?page=deleta&codquestao=".$_GET['codquestao']."'>Deletar</a>"?>
+	<div id="del">
+		<?php 
+			if(isset($_GET['codquestao'])){
+				echo"<a href='admin.php?page=deleta&codquestao=".$_GET['codquestao']."'>Deletar</a>";
+			}	
+		?>
+	</div>
 </form>
 
 <script>
