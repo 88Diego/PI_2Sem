@@ -76,6 +76,7 @@ body {
     margin: 0 auto;
     padding: 0;
     position: relative;
+    background-color: #00BBD4 !important;
 }
 
 h1 {
@@ -122,6 +123,7 @@ strong {
 
 a {
     text-decoration: none;
+    color: #00BBD4 !important;
 }
 
 a:hover {
@@ -414,7 +416,8 @@ form:after {
 	padding: 10px;
 }
 .container.interna{
-	background:none;
+	background:#fff;
+    height: inherit;
 }
 #grid{
 	display:block;
@@ -442,3 +445,21 @@ form:after {
 	width:25%;
 	}
 
+#paginacao{
+    position: relative;
+    left: 50%;
+    display: inline-block;
+    transform: translateX(-50%);
+    margin: 20px;
+}
+
+#delete{
+    text-align: center;
+    padding: 20px;
+    color: #00BBD4;
+}
+
+#del{
+    vertical-align: -webkit-baseline-middle;
+    padding: 10px;
+}

@@ -2,15 +2,34 @@
 if( isset( $_GET['codquestao'] ) ){
 	$id_questao = $_GET['codquestao'];
 	$query_questao = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) WHERE codQuestao = ".$id_questao."";
+	$query_alternativa = "SELECT q.codQuestao, q.textoQuestao, q.codAssunto, q.codTipoQuestao, a.textoAlternativa, a.correta FROM questao Q INNER JOIN alternativa A ON q.codQuestao = a.codQuestao";
 	$array_questao = odbc_exec( $connect, $query_questao );
+	$array_alternativas = odbc_exec( $connect, $query_alternativa );
 	while ($linhas_questao = odbc_fetch_array( $array_questao )) {
-		$textoQuestao = $linhas_questao['textoQuestao'];
+		$textoQuestao = utf8_encode($linhas_questao['textoQuestao']);
 		$codAssunto = $linhas_questao['codAssunto'];
 		$imageData = base64_encode($linhas_questao['bitmapImagem']);			
 		$codTipoQuestao =  $linhas_questao['codTipoQuestao'];
 		$id_professor = $linhas_questao['codProfessor'];
 		$dificuldade = $linhas_questao['dificuldade'];
 	}
+
+	while($linhas_alternativas = odbc_fetch_array( $array_alternativas )){
+		$codQuestao = $linhas_alternativas['codQuestao'];
+		$codAssunto = $linhas_alternativas['codAssunto'];
+		$codTipoQuestao = $linhas_alternativas['codTipoQuestao'];
+		$correta = $linhas_alternativas['correta'];
+
+		// echo $codQuestao;
+		// echo "<br/><br/><br/>";
+		// echo $codAssunto;
+		// echo "<br/><br/><br/>";
+		// echo $codTipoQuestao;
+		// echo "<br/><br/><br/>";
+		// echo $correta;
+		// echo "<br/><br/><br/>";
+	}	
+
 } else{
 	$textoQuestao = NULL;
 	$codAssunto = NULL;
@@ -43,7 +62,7 @@ if( isset( $_GET['codquestao'] ) ){
 			$consultQuestao = "SELECT codTipoQuestao, descricao FROM tipoQuestao ORDER BY descricao";
 			$resultQuestao = odbc_exec( $connect, $consultQuestao );
 		?>
-		<select name="codTipoQuestao" id="tipoQuestao" class="form-control">
+		<select name="codTipoQuestao" id="tipoQuestao" class="form-control" required>
 			<option value="">Selecione o Tipo da Questão</option>
 			<?php while( $tipoQuestao = odbc_fetch_array( $resultQuestao ) ){?>
 	            <option value="<?php echo $tipoQuestao['codTipoQuestao']?>" <?=( strtoupper( $tipoQuestao['codTipoQuestao'] ) == strtoupper( $codTipoQuestao ) )? "selected" : "" ?> ><?php echo $tipoQuestao['descricao'] ?></option>
@@ -54,7 +73,7 @@ if( isset( $_GET['codquestao'] ) ){
 
 	<label for="dificuldade">
 		Dificuldade da Questão:
-		<select name="dificuldade" id="dificuldade" class="form-control">
+		<select name="dificuldade" id="dificuldade" class="form-control" required>
 			<option value="">Selecione a Dificuldade</option>
 			<option value="D" <?=(($dificuldade == "D")||($dificuldade == "d"))?"selected":""?>>Difícil</option>
 			<option value="F" <?=(($dificuldade == "F")||($dificuldade == "f"))?"selected":""?>>Fácil</option>
@@ -64,24 +83,24 @@ if( isset( $_GET['codquestao'] ) ){
 
 	<label for="txQuestao">
 		Título da Questão:
-		<input type="text" id="txQuestao" name="txQuestao" class="form-control" required>
+		<input type="text" id="txQuestao" name="txQuestao" class="form-control" required value="<?=( isset ($textoQuestao) ) ? "$textoQuestao" : "" ?>">
 	</label>
 	
-	<label for="alternativas" id="alternativas">
+	<label for="alternativas" id="alternativas" style="display: none;">
 		Alternativas:	
-		<div class="verdadeiro_falso">
-			<!-- dois input radio verdadeiro ou falso -->
+		<div class="verdadeiro_falso dft" style="display: none;">
+			<input type="radio" name="verdadeirofalso" value="V"> Verdadeiro
+			<input type="radio" name="verdadeirofalso" value="F"> Falso
 		</div>
-		<div class="alternativas">
-			<input type="text" name="txAlternativas" class="form-control" value="<?=( isset( $txAlternativas )) ? "echo $txAlternativas;" : "" ?>">
-			<!-- um input padrào, checkbox para saber qual [e a correta e botoes de add e remove -->
+		<div class="alternativas dft" style="display: none;">
+			<a href="javascript:void(0)" class="add alternativas">Adicionar Campo</a>
+			<a href="javascript:void(0)" class="deleteOpc">Remover Campo</a>
 		</div>
-		<div class="text_objetivo">
-			<input type="text" name="txAlternativas" class="form-control" value="<?=( isset( $txAlternativas )) ? "echo $txAlternativas;" : "" ?>">
-			<!-- um input padrao, todos sáo corretos, botao add e rtemove -->
-		</div>		
-		<a href="javascript:void(0)" id="addAlternativas">Adicionar</a>
-		<a href="javascript:void(0)" id="delAlternativas">Remover</a>
+		<div class="texto_objetivo dft" style="display: none;">
+			<input type="hidden" value="corretas" name="opcao_certa">
+			<a href="javascript:void(0)" class="add texto_objetivo">Adicionar Campo</a>
+			<a href="javascript:void(0)" class="deleteOpc">Remover Campo</a>
+		</div>				
 	</label>
 
     <label for="imagem">
@@ -92,26 +111,65 @@ if( isset( $_GET['codquestao'] ) ){
 		}?>
 	</label>	
 
-	<input type="submit" value="Salvar nova" class="btn btn-default">
+	<input type="submit" value="Salvar" class="btn btn-default">
+	<div id="del">
+		<?php 
+			if(isset($_GET['codquestao'])){
+				echo"<a href='admin.php?page=deleta&codquestao=".$_GET['codquestao']."'>Deletar</a>";
+			}	
+		?>
+	</div>
 </form>
 
 <script>
 	$(document).ready(function(){
-		$('#alternativas a').on('click', function(){
-			if ($(this).attr('id') == "addAlternativas") {
-				// cria input
+
+		if($('#tipoQuestao').val() != ""){
+			if($('#tipoQuestao').val() == "A"){
+				$('.dft').hide();
+				$('#alternativas, .alternativas').show();
+			} else if($('#tipoQuestao').val() == "T"){
+				$('.dft').hide();
+				$('#alternativas, .text_objetivo').show();
 			} else{
-				// remove ultimo input
+				$('.dft').hide();
+				$('#alternativas, .verdadeiro_falso').show();
+			}
+		}
+
+		$('#tipoQuestao').on('change', function(){
+			if(this.value == "A"){
+				$('.dft').hide();
+				$('#alternativas, .alternativas').show();
+			} else if(this.value == "T"){
+				$('.dft').hide();
+				$('#alternativas, .texto_objetivo').show();
+			} else{
+				$('.dft').hide();
+				$('#alternativas, .verdadeiro_falso').show();
 			}
 		});
 
-		// checar tipo da questao e exibir tipo de alternativa
-		// if( ) {
-		// 	// verdadeiro e falso
-		// } else if(){
-		// 	// alternativas
-		// } else {
-		// 	// texto objetivo
-		// }
+		var i = 0;
+
+		$('#alternativas a').on('click', function(){
+		
+			if ($(this).hasClass('add')) {
+				i++;
+				if($(this).hasClass('alternativas')){
+					$(this).parent().prepend('<input type="text" name="alternativas[]" data-index="'+ i + '" class="form-control" value="<?=( isset( $txAlternativas )) ? "echo $txAlternativas;" : "" ?>"><input class="check_certa" type="radio" name="opcao_certa">');
+
+				} else{
+					$(this).parent().prepend('<input type="text" name="alternativas[]" class="form-control" value="<?=( isset( $txObjetivo )) ? "echo $txObjetivo;" : "" ?>">');
+				}							
+			} else {				
+				$(this).parent().children('input').eq(0).remove();
+				i--;
+			}
+		});
+
+		$('.alternativas').on('change', 'input[type=radio]', function(){
+			$(this).val($($(this).prev()).data('index'));
+		});
 	});
 </script>

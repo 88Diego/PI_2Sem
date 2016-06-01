@@ -1,4 +1,18 @@
+<?php
+	$pagina = (isset($_GET['pagina']))? $_GET['pagina'] : 1;
+	$limite = 10;
+
+	include('conexao.php');
+		$queryGrid = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) 
+		ORDER BY questao.codQuestao
+		OFFSET ($pagina-1)* $limite ROWS 
+		FETCH NEXT $limite ROWS ONLY ";
+		$consultaGrid = odbc_exec($connect,$queryGrid);
+		$resultadoGrid = odbc_num_rows($consultaGrid);
+?>
+
 <table id="grid" class="table-striped">
+
 	<thead>
 		<!-- <th>Código da Questão</th> -->
 		<th>Titulo Questão</th>
@@ -12,8 +26,8 @@
 	</thead>
 	<tbody>
 	<?php
-	include('conexao.php');
-       while ($resultado = odbc_fetch_array($consulta)) {      	
+
+       while ($resultado = odbc_fetch_array($consultaGrid)) {      	
 		echo "<tr>";
 			// echo "<td>".$resultado['codQuestao']."</td>";
 			echo "<td class=\"questao\">".utf8_encode( $resultado['textoQuestao'] )."</td>";
@@ -33,8 +47,22 @@
 			echo "<td><a href='admin.php?page=form&codquestao=".$resultado['codQuestao']."'>Editar</a></td>";
 		echo "</tr>";
        }
+   
+
     ?>
 	</tbody>
 </table>
+<div id="paginacao">
+<?php
+	$queryPage = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) ";
+	$consultaPage = odbc_exec($connect,$queryPage);
+	$total = odbc_num_rows($consultaPage);
+	$numPage = ceil($total/$limite);
+		
+	for($i = 1; $i < $numPage + 1; $i++) {
+             echo "<a href='admin.php?page=grid&&pagina=$i'>"."&nbsp &nbsp".$i."</a> ";
+        }
 
+?>
+</div>
 <!-- <h3><?php if($_SESSION['SUCESSO']){echo "Questão cadastrada com sucesso!";}?></h3> -->

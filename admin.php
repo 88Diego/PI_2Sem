@@ -6,13 +6,13 @@ include('session.php');
 		<meta charset="utf-8">
 		<title>Logado</title>
 		<link rel="stylesheet" type="text/css" href="assets/css/login.css" />
-        <link href="css/bootstrap.min.css" rel="stylesheet">
+        <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js" type="text/javascript"></script>
 	
 	</head>
 	<body>
-    <script src="js/jquery.js"></script>
-	<script src="js/bootstrap.min.js"></script>
+    <script src="assets/js/jquery.js"></script>
+	<script src="assets/js/bootstrap.min.js"></script>
 		<div class="container interna">
 
 		<?php
@@ -39,6 +39,8 @@ include('session.php');
 						include('grid.php');
 					} else if (isset($_GET['page']) && $_GET['page'] == "form") {
 						include('nova-edita.php');
+					} else if (isset($_GET['page']) && $_GET['page']== "deleta") {
+						require('deleta.php');
 					}				
 				}
 				else {
