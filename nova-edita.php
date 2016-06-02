@@ -88,19 +88,50 @@ if( isset( $_GET['codquestao'] ) ){
 	
 	<label for="alternativas" id="alternativas" style="display: none;">
 		Alternativas:	
-		<div class="verdadeiro_falso dft" style="display: none;">
-			<input type="radio" name="verdadeirofalso" value="V"> Verdadeiro
-			<input type="radio" name="verdadeirofalso" value="F"> Falso
+		<div class="verdadeiro_falso dft" style="display: none;">			
+			<input type="radio" name="alternativas[]" value="1"> Verdadeiro
+			<input type="radio" name="alternativas[]" value="0"> Falso
 		</div>
 		<div class="alternativas dft" style="display: none;">
+			<?php 
+			// if(isset($_GET['codquestao']) && $_GET['codquestao'] != ""){
+			// 	$consultAlternativa = "SELECT * FROM alternativa WHERE codQuestao = ".$_GET['codquestao']." ORDER BY codAlternativa";
+			// 	$resultAlternativa = odbc_exec( $connect, $consultAlternativa );
+			// 	while( $alternativas = odbc_fetch_array( $resultAlternativa ) ) {					
+			// 		print_r($alternativas['codAlternativa']);
+			// 		echo "<br/>";
+			// 		print_r($alternativas['textoAlternativa']);
+			// 		echo "<br/>";
+			// 		print_r($alternativas['correta']);
+			// 		echo "<br/>";
+			// 		// Array ( 
+			// 		// 	[codQuestao] => 327 
+			// 		// 	[codAlternativa] => 1 
+			// 		// 	[textoAlternativa] => teste1 
+			// 		// 	[correta] => 1 ) 
+			// 		// Array ( 
+			// 		// 	[codQuestao] => 327 
+			// 		// 	[codAlternativa] => 2 
+			// 		// 	[textoAlternativa] => teste2 
+			// 		// 	[correta] => 1 ) 
+			// 		// Array ( 
+			// 		// 	[codQuestao] => 327 
+			// 		// 	[codAlternativa] => 3 
+			// 		// 	[textoAlternativa] => teste3 
+			// 		// 	[correta] => 1 )
+								
+			// 	}				
+			// }			
+			?>
+			
 			<a href="javascript:void(0)" class="add alternativas">Adicionar Campo</a>
 			<a href="javascript:void(0)" class="deleteOpc">Remover Campo</a>
 		</div>
 		<div class="texto_objetivo dft" style="display: none;">
-			<input type="hidden" value="corretas" name="opcao_certa">
 			<a href="javascript:void(0)" class="add texto_objetivo">Adicionar Campo</a>
 			<a href="javascript:void(0)" class="deleteOpc">Remover Campo</a>
-		</div>				
+		</div>		
+		<input type="hidden" value="" name="opcao_certa" class="opcao_certa">		
 	</label>
 
     <label for="imagem">
@@ -124,7 +155,11 @@ if( isset( $_GET['codquestao'] ) ){
 <script>
 	$(document).ready(function(){
 
+		var i = 0;
+
 		if($('#tipoQuestao').val() != ""){
+			$('.opcao_certa').val("");
+			i = 0;
 			if($('#tipoQuestao').val() == "A"){
 				$('.dft').hide();
 				$('#alternativas, .alternativas').show();
@@ -138,6 +173,8 @@ if( isset( $_GET['codquestao'] ) ){
 		}
 
 		$('#tipoQuestao').on('change', function(){
+			$('.opcao_certa').val("");
+			i = 0;
 			if(this.value == "A"){
 				$('.dft').hide();
 				$('#alternativas, .alternativas').show();
@@ -150,26 +187,31 @@ if( isset( $_GET['codquestao'] ) ){
 			}
 		});
 
-		var i = 0;
+		
 
 		$('#alternativas a').on('click', function(){
 		
 			if ($(this).hasClass('add')) {
 				i++;
 				if($(this).hasClass('alternativas')){
-					$(this).parent().prepend('<input type="text" name="alternativas[]" data-index="'+ i + '" class="form-control" value="<?=( isset( $txAlternativas )) ? "echo $txAlternativas;" : "" ?>"><input class="check_certa" type="radio" name="opcao_certa">');
+					$(this).parent().prepend('<input type="text" name="alternativas[]" class="form-control" value="<?=( isset( $txAlternativas )) ? "echo $txAlternativas;" : "" ?>"><input class="check_certa" type="radio" data-index="'+ i + '" name="alternativacerta">');
 
 				} else{
 					$(this).parent().prepend('<input type="text" name="alternativas[]" class="form-control" value="<?=( isset( $txObjetivo )) ? "echo $txObjetivo;" : "" ?>">');
+					$('.opcao_certa').val('1');
 				}							
 			} else {				
+				$(this).parent().children('input').eq(0).remove();
 				$(this).parent().children('input').eq(0).remove();
 				i--;
 			}
 		});
 
 		$('.alternativas').on('change', 'input[type=radio]', function(){
-			$(this).val($($(this).prev()).data('index'));
+			$('.opcao_certa').val($(this).data('index'));
+		});
+		$('.verdadeiro_falso').on('change', 'input[type=radio]', function(){
+			$('.opcao_certa').val($(this).val());
 		});
 	});
 </script>

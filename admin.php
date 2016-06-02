@@ -40,7 +40,9 @@ include('session.php');
 					} else if (isset($_GET['page']) && $_GET['page'] == "form") {
 						include('nova-edita.php');
 					} else if (isset($_GET['page']) && $_GET['page']== "deleta") {
-						require('deleta.php');
+						include('deleta.php');
+					} else{
+						include('grid.php');
 					}				
 				}
 				else {

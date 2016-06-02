@@ -35,25 +35,29 @@ if( $_FILES['imagem']['size'] > 0 ){
 	$resultImg = odbc_execute($prepImg, $paramsImg );
 
 	$queryQuestao = "INSERT INTO QUESTAO (textoQuestao, codAssunto, codImagem, codTipoQuestao, codProfessor, ativo, dificuldade ) VALUES (?,?, IDENT_CURRENT( 'IMAGEM' ), ?, ?, ?, ?)";	
-	$paramsQuestao = array ($_POST['txQuestao'], $_POST['codAssunto'], $_POST['codTipoQuestao'], $_SESSION['codProfessor'], $_POST['ativo'], $_POST['dificuldade']);
+	$paramsQuestao = array ($_POST['txQuestao'], $_POST['codAssunto'], $_POST['codTipoQuestao'], $_SESSION['codProfessor'], 1, $_POST['dificuldade']);
 	$prepQuestao = odbc_prepare($connect, $queryQuestao);
 	$resultQuestao = odbc_execute($prepQuestao, $paramsQuestao);	
 		
 	
 } else{
 
+	if(isset($_GET['codquestao']) && $_GET['codquestao'] != ""){
+		$queryQuestao = "UPDATE questao SET textoQuestao = ".$_POST['txQuestao'].", codAssunto = ".$_POST['codAssunto'].", codTipoQuestao = ".$_POST['codTipoQuestao'].", codProfessor = ".$_SESSION['codProfessor'].", ativo = 1, dificuldade = ".$_POST['dificuldade']." WHERE codQuestao = ".$_GET['codquestao']."";
+		$resultQuestao = odbc_exec($connect, $queryQuestao);	
+	}
 
-
-	$queryQuestao = "INSERT INTO QUESTAO (textoQuestao, codAssunto, codTipoQuestao, codProfessor, ativo, dificuldade ) VALUES (?, ?, ?, ?, ?, ?)";		
-	$paramsQuestao = array ($_POST['txQuestao'], $_POST['codAssunto'], $_POST['codTipoQuestao'], $_SESSION['codProfessor'], 1, $_POST['dificuldade']);
-	$prepQuestao = odbc_prepare($connect, $queryQuestao);
-	$resultQuestao = odbc_execute($prepQuestao, $paramsQuestao);
-
-	$resultCodQuestaoScope = odbc_exec($connect, "SELECT IDENT_CURRENT('Questao') codQuestao");
+	 else{
+		$queryQuestao = "INSERT INTO QUESTAO (textoQuestao, codAssunto, codTipoQuestao, codProfessor, ativo, dificuldade ) VALUES (?, ?, ?, ?, ?, ?)";	
+		$paramsQuestao = array ($_POST['txQuestao'], $_POST['codAssunto'], $_POST['codTipoQuestao'], $_SESSION['codProfessor'], 1, $_POST['dificuldade']);
+		$prepQuestao = odbc_prepare($connect, $queryQuestao);
+		$resultQuestao = odbc_execute($prepQuestao, $paramsQuestao);		
+		$resultCodQuestaoScope = odbc_exec($connect, "SELECT IDENT_CURRENT('Questao') codQuestao");
+	}
 
 	$codQuestao = odbc_fetch_array($resultCodQuestaoScope);
 
-	print_r($codQuestao);
+	// print_r($codQuestao['codQuestao']);
 
 
 
@@ -80,26 +84,39 @@ if( $_FILES['imagem']['size'] > 0 ){
 	// PRINT_R($_SESSION['codQuestao']);
 
 
-	$i = 0;
+	$i = 1;
+	
 	foreach ($_POST['alternativas'] as $key => $value) {	
-		$i++;
 		
-		if($key == $i-1){
+		// print_r($key);
+		// echo "<br/><br/>";
+		// print_r($_POST['opcao_certa']);
+		// echo "<br/><br/>";
 
-			print_r('i: '.$i.' value: '.$value.'<br/>');	
 			
+
 			$queryAlternativa = "INSERT INTO ALTERNATIVA (codQuestao, codAlternativa, textoAlternativa, correta) VALUES (?, ?, ?, ?)";
 
-			if($_POST['opcao_certa'] == $i || $_POST['opcao_certa'] == "corretas"){
-				$paramsAlternativa = array ($codQuestao, $i, $value, 1);	
-			} else{
-				$paramsAlternativa = array ($codQuestao, $i, $value, 0);
+
+			if($_POST['opcao_certa'] == 1){
+				echo "Correta";
+				// echo "<br/>";
+				// echo "<br/>";
+				// print_r($_POST['opcao_certa']);
+				// echo "<br/>";
+				$paramsAlternativa = array ($codQuestao['codQuestao'], $i, $value, 1);	
+			} else {
+				echo "Incorreta";
+				// echo "<br/>";
+				// echo "<br/>";
+				// print_r($_POST['opcao_certa']);
+				// echo "<br/>";
+				$paramsAlternativa = array ($codQuestao['codQuestao'], $i, $value, 0);
 			}
 			
 			$prepAlternativa = odbc_prepare($connect, $queryAlternativa);
 			$resultAlternativa = odbc_execute($prepAlternativa, $paramsAlternativa);
-		}
-
+			$i++;
 	}
 	
 }
