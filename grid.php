@@ -1,6 +1,6 @@
 <?php
 	$pagina = (isset($_GET['pagina']))? $_GET['pagina'] : 1;
-	$limite = 10;
+	$limite = 15;
 
 	include('conexao.php');
 		$queryGrid = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) 
@@ -23,6 +23,7 @@
 		<!-- <th>Ativo?</th> -->
 		<th>Dificuldade</th>
 		<th>Editar</th>
+		<th>Deletar</th>
 	</thead>
 	<tbody>
 	<?php
@@ -45,6 +46,7 @@
 			// echo "<td>".$resultado['ativo']."</td>";
 			echo "<td>".strtoupper( $resultado['dificuldade'] )."</td>";
 			echo "<td><a href='admin.php?page=form&codquestao=".$resultado['codQuestao']."'>Editar</a></td>";
+			echo"<td><a href='admin.php?page=deleta&codquestao=".$resultado['codQuestao']."'>Deletar</a></td>";
 		echo "</tr>";
        }
    

@@ -2,30 +2,39 @@
 	<?php
 		
 		if( isset( $_GET['codquestao'] ) ){
-			$id_questao = $_GET['codquestao'];
-			$query_questao = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) WHERE codQuestao = ".$id_questao."";
-			$query_alternativa = "SELECT q.codQuestao, q.textoQuestao, q.codAssunto, q.codTipoQuestao, a.textoAlternativa, a.correta FROM questao Q INNER JOIN alternativa A ON q.codQuestao = a.codQuestao";
-			$questao = odbc_exec( $connect, $query_questao );
-			$alternativa = odbc_exec($connect, $query_alternativa);
-			$linhas_questao = odbc_fetch_array( $questao );
-			$linhas_alternativa = odbc_fetch_array($alternativa);
-			if ($_SESSION['codProfessor'] == $linhas_questao['codProfessor'] && $linhas_questao['ativo']==0) {
-				$query_delet_alternativa = "DELETE FROM alternativa WHERE codquestao = ".$id_questao."";
-				$delet_alternativa = odbc_exec($connect, $query_delet_alternativa);
+			$idQuestao = $_GET['codquestao'];
+			$queryQuestao = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) WHERE codQuestao = ".$idQuestao."";
+			$queryEvento = "SELECT * FROM questaoevento WHERE codQuestao = ".$idQuestao."";
+			$questao = odbc_exec( $connect, $queryQuestao );
+			$evento = odbc_exec($connect, $queryEvento);
+			$linhasQuestao = odbc_fetch_array( $questao );
+			$questaoEvento = odbc_num_rows($evento);
 
-				$query_delet_questao = "DELETE FROM questao WHERE codQuestao = ".$id_questao."";
-				$delet_questao = odbc_exec($connect, $query_delet_questao);
+			if($questaoEvento<1){
 
-				echo "Questão deletada";
-			}else if($_SESSION['codProfessor'] == $linhas_questao['codProfessor'] && $linhas_questao['ativo']!=0){
-				$query_ativo = "UPDATE questao SET ativo=0 WHERE codQuestao = ".$id_questao."";
-				$update_ativo = odbc_exec($connect, $query_ativo);
-				echo "O campo ativo foi atualizado";
+				if ($_SESSION['codProfessor'] == $linhasQuestao['codProfessor'] && $linhasQuestao['ativo']==0) {
+
+					$queryDeletAlternativa = "DELETE FROM alternativa WHERE codquestao = ".$idQuestao."";
+					$deletAlternativa = odbc_exec($connect, $queryDeletAlternativa);
+
+					$queryDeletQuestao = "DELETE FROM questao WHERE codQuestao = ".$idQuestao."";
+					$deletQuestao = odbc_exec($connect, $queryDeletQuestao);
+
+					$idImagem = $linhasQuestao['codImagem'];
+					$queryDeletImagem = "DELETE FROM imagem WHERE codImagem = ".$idImagem."";
+					$deletImagem = odbc_exec($connect, $queryDeletImagem);
+
+					echo "Questão deletada";
+				}else if($_SESSION['codProfessor'] == $linhasQuestao['codProfessor'] && $linhasQuestao['ativo']!=0){
+					$queryAtivo = "UPDATE questao SET ativo=0 WHERE codQuestao = ".$idQuestao."";
+					$updateAtivo = odbc_exec($connect, $queryAtivo);
+					echo "Questão desativada";
+				}
+
+				else echo "Você não pode deletar esta questão";
+			
 			}
-
-			else echo "Você não pode deletar esta questão";
-			
-			
+			else echo "Questão já utilizada, não pode ser deletada";
 		}
 
 	?>

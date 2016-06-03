@@ -1,24 +1,25 @@
 <?php 
 if( isset( $_GET['codquestao'] ) ){
-	$id_questao = $_GET['codquestao'];
-	$query_questao = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) WHERE codQuestao = ".$id_questao."";
-	$query_alternativa = "SELECT q.codQuestao, q.textoQuestao, q.codAssunto, q.codTipoQuestao, a.textoAlternativa, a.correta FROM questao Q INNER JOIN alternativa A ON q.codQuestao = a.codQuestao";
-	$array_questao = odbc_exec( $connect, $query_questao );
-	$array_alternativas = odbc_exec( $connect, $query_alternativa );
-	while ($linhas_questao = odbc_fetch_array( $array_questao )) {
-		$textoQuestao = utf8_encode($linhas_questao['textoQuestao']);
-		$codAssunto = $linhas_questao['codAssunto'];
-		$imageData = base64_encode($linhas_questao['bitmapImagem']);			
-		$codTipoQuestao =  $linhas_questao['codTipoQuestao'];
-		$id_professor = $linhas_questao['codProfessor'];
-		$dificuldade = $linhas_questao['dificuldade'];
+	$idQuestao = $_GET['codquestao'];
+	$queryQuestao = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) WHERE codQuestao = ".$idQuestao."";
+	$queryAlternativa = "SELECT q.codQuestao, q.textoQuestao, q.codAssunto, q.codTipoQuestao, a.textoAlternativa, a.correta FROM questao Q INNER JOIN alternativa A ON q.codQuestao = a.codQuestao";
+	$arrayQuestao = odbc_exec( $connect, $queryQuestao );
+	$arrayAlternativas = odbc_exec( $connect, $queryAlternativa );
+	while ($linhasQuestao = odbc_fetch_array( $arrayQuestao )) {
+		$textoQuestao = utf8_encode($linhasQuestao['textoQuestao']);
+		$codAssunto = $linhasQuestao['codAssunto'];
+		$imageData = base64_encode($linhasQuestao['bitmapImagem']);			
+		$codTipoQuestao =  $linhasQuestao['codTipoQuestao'];
+		$id_professor = $linhasQuestao['codProfessor'];
+		$dificuldade = $linhasQuestao['dificuldade'];
+		echo "codAssunto ".$codAssunto. "<br/>codTipoQuestao " .$codTipoQuestao;
 	}
 
-	while($linhas_alternativas = odbc_fetch_array( $array_alternativas )){
-		$codQuestao = $linhas_alternativas['codQuestao'];
-		$codAssunto = $linhas_alternativas['codAssunto'];
-		$codTipoQuestao = $linhas_alternativas['codTipoQuestao'];
-		$correta = $linhas_alternativas['correta'];
+	while($linhasAlternativas = odbc_fetch_array( $arrayAlternativas )){
+		$codQuestao = $linhasAlternativas['codQuestao'];
+		$codAssunto = $linhasAlternativas['codAssunto'];
+		$codTipoQuestao = $linhasAlternativas['codTipoQuestao'];
+		$correta = $linhasAlternativas['correta'];
 
 		// echo $codQuestao;
 		// echo "<br/><br/><br/>";
@@ -40,18 +41,18 @@ if( isset( $_GET['codquestao'] ) ){
 }
 ?>
 
-<form action="salva-form.php" enctype="multipart/form-data" method="post" id="novo-edita" >
+<form action="admin.php?page=salva-form" enctype="multipart/form-data" method="post" id="novo-edita" >
 	<input type="hidden" id="id_questao" value="<?php echo $id_questao; ?>">
     <label for="assunto">
 	    <?php 
-			$query_assunto = "SELECT codAssunto, descricao FROM assunto ORDER BY descricao";
-			$resultado_assunto = odbc_exec( $connect, $query_assunto );
+			$queryAssunto = "SELECT codAssunto, descricao FROM assunto ORDER BY descricao";
+			$resultadoAssunto = odbc_exec( $connect, $queryAssunto );
 		?>
 		Assunto da Questão:
 		<select name="codAssunto" id="assunto" class="form-control" required>
 			<option value="">Selecione o Assunto</option>
-			<?php while( $opcoes_assunto = odbc_fetch_array( $resultado_assunto ) ){?>
-                <option value="<?php echo $opcoes_assunto['codAssunto']?>" <?=( $opcoes_assunto['codAssunto'] == $codAssunto ) ? "selected" : "" ?> ><?php echo $opcoes_assunto['descricao'] ?></option>
+			<?php while( $opcoesAssunto = odbc_fetch_array( $resultadoAssunto ) ){?>
+                <option value="<?php echo $opcoesAssunto['codAssunto']?>" <?=(  $opcoesAssunto['codAssunto'] == $codAssunto ) ? "selected" : "" ?> ><?php echo $opcoesAssunto['descricao'] ?></option>
             <?php } ?>
 		</select>
 	</label>
@@ -65,7 +66,7 @@ if( isset( $_GET['codquestao'] ) ){
 		<select name="codTipoQuestao" id="tipoQuestao" class="form-control" required>
 			<option value="">Selecione o Tipo da Questão</option>
 			<?php while( $tipoQuestao = odbc_fetch_array( $resultQuestao ) ){?>
-	            <option value="<?php echo $tipoQuestao['codTipoQuestao']?>" <?=( strtoupper( $tipoQuestao['codTipoQuestao'] ) == strtoupper( $codTipoQuestao ) )? "selected" : "" ?> ><?php echo $tipoQuestao['descricao'] ?></option>
+	            <option value="<?php echo $tipoQuestao['codTipoQuestao']?>" <?= strtoupper( $tipoQuestao['codTipoQuestao'] ) == ( strtoupper( $codTipoQuestao ))? "selected" : "" ?> ><?php echo $tipoQuestao['descricao'] ?></option>
 
 	    <?php } ?>
 	    </select>
@@ -143,15 +144,10 @@ if( isset( $_GET['codquestao'] ) ){
 	</label>	
 
 	<input type="submit" value="Salvar" class="btn btn-default">
-	<div id="del">
-		<?php 
-			if(isset($_GET['codquestao'])){
-				echo"<a href='admin.php?page=deleta&codquestao=".$_GET['codquestao']."'>Deletar</a>";
-			}	
-		?>
-	</div>
-</form>
+	
 
+</form>
+<?php echo "<br/>codAssunto ".$codAssunto. "<br/>codTipoQuestao " .$codTipoQuestao; ?>
 <script>
 	$(document).ready(function(){
 

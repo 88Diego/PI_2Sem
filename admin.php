@@ -41,7 +41,9 @@ include('session.php');
 						include('nova-edita.php');
 					} else if (isset($_GET['page']) && $_GET['page']== "deleta") {
 						include('deleta.php');
-					} else{
+					} else if (isset($_GET['page']) && $_GET['page']== "salva-form"){
+						include('salva-form.php');
+					}else{
 						include('grid.php');
 					}				
 				}
