@@ -70,7 +70,6 @@ td {
 }
 
 body {
-  
     color: #000;
     font: 14px Arial;
     margin: 0 auto;
@@ -246,8 +245,8 @@ form:after {
     width: 100%;
 }
 
-.container h3{
-	text-align: center;
+.container h3 {
+    text-align: center;
 }
 
 #content:after {
@@ -385,67 +384,73 @@ form:after {
     height: 35px;
 }
 
-#menuCrud, #grid, #novo-edita{
+#menuCrud,
+#grid,
+#novo-edita {
     width: 1024px;
     margin: 0 auto;
 }
 
-#menuCrud a{
+#menuCrud a {
     width: 33%;
     display: inline-block;
     text-align: center;
-	line-height: 50px;
-	vertical-align: middle;
+    line-height: 50px;
+    vertical-align: middle;
 }
 
-#novo-edita label{
+#novo-edita label {
     display: block;
 }
 
-#novo-edita input[name=alternativas]{
+#novo-edita input[name=alternativas] {
     display: block;
 }
-#novo-edita{
-	padding:5%;
+
+#novo-edita {
+    padding: 5%;
 }
 
-#grid img{
+#grid img {
     width: 50px;
     height: 50px;
     display: block;
-	padding: 10px;
+    padding: 10px;
 }
-.container.interna{
-	background:#fff;
+
+.container.interna {
+    background: #fff;
     height: inherit;
 }
-#grid{
-	display:block;
-	border: solid #ccc 1px;
-	-webkit-border-radius: 10px;
-	-moz-border-radius: 10px;
-	border-radius: 10px;
-	text-align: center;
+
+#grid {
+    display: block;
+    border: solid #ccc 1px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+    text-align: center;
 }
 
 #grid th {
-	padding: 5px;
-	text-align: center;
-} 
-
-#grid td{
-	text-align: center;	
-	line-height: 25px;
-	vertical-align: middle;
-	padding: 10px;
+    padding: 5px;
+    text-align: center;
 }
 
-#grid td.questao{
-	text-align:left;
-	width:25%;
-	}
+#grid td {
+    text-align: center;
+    line-height: 25px;
+    vertical-align: middle;
+    padding: 10px;
+}
 
-#paginacao{
+#grid td.questao {
+    text-align: left;
+    width: 25%;
+    min-width: 255px;
+}
+
+#paginacao {
     position: relative;
     left: 50%;
     display: inline-block;
@@ -453,7 +458,7 @@ form:after {
     margin: 20px;
 }
 
-#textos{
+#textos {
     text-align: center;
     padding: 20px;
     color: #00BBD4;

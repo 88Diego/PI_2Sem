@@ -3,7 +3,7 @@ Questão Salva
 </div>
 <?php
 
-include('session.php');
+// include('session.php');
 
 include('conexao.php');
 
@@ -45,8 +45,12 @@ if( $_FILES['imagem']['size'] > 0 ){
 	
 } else{
 
+
 	if(isset($_GET['codquestao']) && $_GET['codquestao'] != ""){
-		$queryQuestao = "UPDATE questao SET textoQuestao = ".$_POST['txQuestao'].", codAssunto = ".$_POST['codAssunto'].", codTipoQuestao = ".$_POST['codTipoQuestao'].", codProfessor = ".$_SESSION['codProfessor'].", ativo = 1, dificuldade = ".$_POST['dificuldade']." WHERE codQuestao = ".$_GET['codquestao']."";
+		$queryQuestao = "UPDATE questao SET textoQuestao = '".$_POST['txQuestao']."', codAssunto = ".$_POST['codAssunto'].", codTipoQuestao = '".$_POST['codTipoQuestao']."', codProfessor = ".$_SESSION['codProfessor'].", ativo = 1, dificuldade = '".$_POST['dificuldade']."' WHERE codQuestao = ".$_GET['codquestao']."";
+
+
+		echo $queryQuestao;
 		$resultQuestao = odbc_exec($connect, $queryQuestao);	
 	}
 
@@ -58,7 +62,7 @@ if( $_FILES['imagem']['size'] > 0 ){
 		$resultCodQuestaoScope = odbc_exec($connect, "SELECT IDENT_CURRENT('Questao') codQuestao");
 	}
 
-	$codQuestao = odbc_fetch_array($resultCodQuestaoScope);
+	// $codQuestao = odbc_fetch_array($resultCodQuestaoScope);
 
 	// print_r($codQuestao['codQuestao']);
 

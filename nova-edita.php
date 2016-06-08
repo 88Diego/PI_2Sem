@@ -40,8 +40,9 @@ if( isset( $_GET['codquestao'] ) ){
 }
 ?>
 
-<form action="admin.php?page=salva-form" enctype="multipart/form-data" method="post" id="novo-edita" >
-	<input type="hidden" id="id_questao" value="<?php echo $id_questao; ?>">
+
+<form action="admin.php?page=salva-form&codquestao=<?php echo $idQuestao; ?>" enctype="multipart/form-data" method="post" id="novo-edita" >
+	<!-- <input type="hidden" id="id_questao" value="<?php echo $idQuestao; ?>"> -->
     <label for="assunto">
 	    <?php 
 			$queryAssunto = "SELECT codAssunto, descricao FROM assunto ORDER BY descricao";
