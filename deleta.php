@@ -1,4 +1,4 @@
-<div id="delete">
+<div id="textos">
 	<?php
 		
 		if( isset( $_GET['codquestao'] ) ){

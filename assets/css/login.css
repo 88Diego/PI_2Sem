@@ -453,13 +453,9 @@ form:after {
     margin: 20px;
 }
 
-#delete{
+#textos{
     text-align: center;
     padding: 20px;
     color: #00BBD4;
 }
 
-#del{
-    vertical-align: -webkit-baseline-middle;
-    padding: 10px;
-}

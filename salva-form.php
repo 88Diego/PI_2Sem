@@ -1,4 +1,4 @@
-<div id="delete">
+<div id="textos">
 Questão Salva
 </div>
 <?php

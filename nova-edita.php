@@ -12,13 +12,12 @@ if( isset( $_GET['codquestao'] ) ){
 		$codTipoQuestao =  $linhasQuestao['codTipoQuestao'];
 		$id_professor = $linhasQuestao['codProfessor'];
 		$dificuldade = $linhasQuestao['dificuldade'];
-		echo "codAssunto ".$codAssunto. "<br/>codTipoQuestao " .$codTipoQuestao;
 	}
 
 	while($linhasAlternativas = odbc_fetch_array( $arrayAlternativas )){
-		$codQuestao = $linhasAlternativas['codQuestao'];
-		$codAssunto = $linhasAlternativas['codAssunto'];
-		$codTipoQuestao = $linhasAlternativas['codTipoQuestao'];
+		$codQuestaoAlter = $linhasAlternativas['codQuestao'];
+		$codAssuntoAlter = $linhasAlternativas['codAssunto'];
+		$codTipoQuestaoAlter = $linhasAlternativas['codTipoQuestao'];
 		$correta = $linhasAlternativas['correta'];
 
 		// echo $codQuestao;
@@ -76,9 +75,10 @@ if( isset( $_GET['codquestao'] ) ){
 		Dificuldade da Questão:
 		<select name="dificuldade" id="dificuldade" class="form-control" required>
 			<option value="">Selecione a Dificuldade</option>
-			<option value="D" <?=(($dificuldade == "D")||($dificuldade == "d"))?"selected":""?>>Difícil</option>
 			<option value="F" <?=(($dificuldade == "F")||($dificuldade == "f"))?"selected":""?>>Fácil</option>
 			<option value="M" <?=(($dificuldade == "M")||($dificuldade == "m"))?"selected":""?>>Médio</option>
+			<option value="D" <?=(($dificuldade == "D")||($dificuldade == "d"))?"selected":""?>>Difícil</option>
+			
 		</select>
 	</label>
 
@@ -147,7 +147,6 @@ if( isset( $_GET['codquestao'] ) ){
 	
 
 </form>
-<?php echo "<br/>codAssunto ".$codAssunto. "<br/>codTipoQuestao " .$codTipoQuestao; ?>
 <script>
 	$(document).ready(function(){
 
