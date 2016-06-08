@@ -4,7 +4,7 @@ include('session.php');
 <html>
 	<head>
 		<meta charset="utf-8">
-		<title>Logado</title>
+		<title>SenaQuiz</title>
 		<link rel="stylesheet" type="text/css" href="assets/css/login.css" />
         <link href="assets/css/bootstrap.min.css" rel="stylesheet">
 		<script src="https://code.jquery.com/jquery-2.2.3.min.js" type="text/javascript"></script>
@@ -41,7 +41,9 @@ include('session.php');
 						include('nova-edita.php');
 					} else if (isset($_GET['page']) && $_GET['page']== "deleta") {
 						include('deleta.php');
-					} else{
+					} else if (isset($_GET['page']) && $_GET['page']== "salva-form"){
+						include('salva-form.php');
+					}else{
 						include('grid.php');
 					}				
 				}
