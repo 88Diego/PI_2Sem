@@ -4,7 +4,7 @@
 
 	include('conexao.php');
 		$queryGrid = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) 
-		ORDER BY questao.codQuestao
+		ORDER BY questao.codQuestao DESC
 		OFFSET ($pagina-1)* $limite ROWS 
 		FETCH NEXT $limite ROWS ONLY ";
 		$consultaGrid = odbc_exec($connect,$queryGrid);
@@ -62,7 +62,7 @@
 	$numPage = ceil($total/$limite);
 		
 	for($i = 1; $i < $numPage + 1; $i++) {
-             echo "<a href='admin.php?page=grid&&pagina=$i'>"."&nbsp &nbsp".$i."</a> ";
+             echo "<a href='admin.php?page=grid&pagina=$i'>"."&nbsp &nbsp".$i."</a> ";
         }
 
 ?>
