@@ -3,7 +3,7 @@
 include('session.php');
 
 $usuario = $_POST['username'];
-$senha = $_POST['password'];
+$senha   = $_POST['password'];
 
 include('conexao.php');
 
@@ -22,26 +22,25 @@ $query = "SELECT codProfessor, nome, tipo, email FROM professor WHERE email = '$
 // )
 
 
-$consulta = odbc_exec($connect,$query);
-$resultado = odbc_num_rows($consulta);	
+$consulta  = odbc_exec($connect, $query);
+$resultado = odbc_num_rows($consulta);
 
-if( $resultado > 0 ){
-	$resultado = odbc_fetch_array($consulta);
-
-	$_SESSION['Logado'] = true;
-	$_SESSION['showMenu'] = true;
-	$_SESSION['codProfessor'] = $resultado['codProfessor'];
-	$_SESSION['nomeProfessor'] = $resultado['nome'];
-	$_SESSION['tipoProfessor'] = $resultado['tipo'];
-
-	$_SESSION['msgError'] = NULL;
-
-	header('Location:admin.php');	
-}
-else {
-	// session_destroy();	
-	$_SESSION['msgError'] = "Login inválido.";
-	header('Location:index.php');		
+if ($resultado > 0) {
+    $resultado = odbc_fetch_array($consulta);
+    
+    $_SESSION['Logado']        = true;
+    $_SESSION['showMenu']      = true;
+    $_SESSION['codProfessor']  = $resultado['codProfessor'];
+    $_SESSION['nomeProfessor'] = $resultado['nome'];
+    $_SESSION['tipoProfessor'] = $resultado['tipo'];
+    
+    $_SESSION['msgError'] = NULL;
+    
+    header('Location:admin.php');
+} else {
+    // session_destroy();	
+    $_SESSION['msgError'] = "Login inválido.";
+    header('Location:index.php');
 }
 
 
