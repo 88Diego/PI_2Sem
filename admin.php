@@ -22,39 +22,39 @@ include('session.php');
 		</nav>
 		
 		<?php
-if (isset($_SESSION['showMenu']) && $_SESSION['showMenu']) {
-?>
+			if (isset($_SESSION['showMenu']) && $_SESSION['showMenu']) {
+		?>
 			
 
 			<?php
     
-    include('conexao.php');
-    
-    $query = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem)";
-    
-    $consulta  = odbc_exec($connect, $query);
-    $resultado = odbc_num_rows($consulta);
-    
-    if ($resultado > 0) {
-        if (isset($_GET['page']) && $_GET['page'] == "grid") {
-            include('grid.php');
-        } else if (isset($_GET['page']) && $_GET['page'] == "form") {
-            include('nova-edita.php');
-        } else if (isset($_GET['page']) && $_GET['page'] == "deleta") {
-            include('deleta.php');
-        } else if (isset($_GET['page']) && $_GET['page'] == "salva-form") {
-            include('salva-form.php');
-        } else {
-            include('grid.php');
-        }
-    } else {
-        echo "Sem resultados.";
-    }
-?>
+			    include('conexao.php');
+			    
+			    $query = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem)";
+			    
+			    $consulta  = odbc_exec($connect, $query);
+			    $resultado = odbc_num_rows($consulta);
+			    
+			    if ($resultado > 0) {
+			        if (isset($_GET['page']) && $_GET['page'] == "grid") {
+			            include('grid.php');
+			        } else if (isset($_GET['page']) && $_GET['page'] == "form") {
+			            include('nova-edita.php');
+			        } else if (isset($_GET['page']) && $_GET['page'] == "deleta") {
+			            include('deleta.php');
+			        } else if (isset($_GET['page']) && $_GET['page'] == "salva-form") {
+			            include('salva-form.php');
+			        } else {
+			            include('grid.php');
+			        }
+			    } else {
+			        echo "Sem resultados.";
+			    }
+			?>
 
-			<?php
-}
-?>		
+		<?php
+			}
+		?>		
 
 		</div>		
 	</body>

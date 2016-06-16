@@ -391,23 +391,73 @@ form:after {
     max-width: 1024px;
     margin: 0 auto;
     display: block;
-    float: left;
+    /*float: left;*/
     width: 100%;
 }
 
+#menuCrud{
+border: solid 1px #1FC8DB;
+    border-radius: 10px;
+    margin: 1% auto;
+    width: 648px;
+    box-sizing: border-box;
+    position: relative;
+}
+
 #menuCrud a {
-    width: calc(100% / 3);
-    display: block;
+    width: calc(95% / 3);
+    display: inline-block;
     text-align: center;
     line-height: 1;
     vertical-align: middle;
     font-size: 1em;
-    float: left;
     margin: 1em 0;
 }
 
+#menuCrud a:nth-child(2){
+    border-right: solid 1px #1FC8DB;
+    border-left: solid 1px #1FC8DB;
+}
+
+#menuCrud a:after{
+    display: table;
+    float: none;
+    clear: both;
+    content: " ";
+}
+
+#novo-edita {
+    padding: 0 5% 5%;
+}
+
+
 #novo-edita label {
     display: block;
+}
+
+#novo-edita label .dft a {
+    display: table-cell;
+    margin: 0 10px 0 0;
+    float: none;
+    clear: both;
+    text-indent: -9999px;
+    width: 29px;
+    height: 28px;
+}
+
+#novo-edita label .dft a.add {
+    background: url(../img/add_img.png) center no-repeat;
+}
+
+#novo-edita label .dft a.deleteOpc {
+    background: url(../img/remove_img.jpg) center no-repeat;
+}
+
+#novo-edita label .dft:after {
+    clear: both;
+    float: none;
+    display: table;
+    content: " ";
 }
 
 #novo-edita label .alternativas input[type=text] {
@@ -417,15 +467,17 @@ form:after {
 }
 
 #novo-edita label .alternativas input[type=radio] {
-    width: 5%;
+    width: 4%;
     display: block;
     float: left;
     margin-top: 20px;
 }
 
-#novo-edita label .alternativas input[type=radio]::after {
+#novo-edita label .alternativas input[type=radio]:after {
     clear: both;
     display: block;
+    content: " ";
+    float: none;
 }
 
 #novo-edita input[name=alternativas] {
@@ -436,17 +488,22 @@ form:after {
     display: block;
     width: 100px;
     height: auto;
+    margin: 1em 0;
 }
 
-#novo-edita {
-    padding: 5%;
+.grid{
+    border: solid 1px #1FC8DB;
+    border-radius: 10px;
+     width: 90%;    
+    text-align: center;
+    margin: 0 auto;
 }
 
 #grid img {
+    border-radius: 10px;
     width: 50px;
     height: 50px;
     display: block;
-    padding: 10px;
 }
 
 .container.interna {
@@ -454,25 +511,20 @@ form:after {
     height: inherit;
 }
 
-#grid {
-    display: block;
-    border: solid #ccc 1px;
-    -webkit-border-radius: 10px;
-    -moz-border-radius: 10px;
-    border-radius: 10px;
-    text-align: center;
-}
-
 #grid th {
-    padding: 5px;
-    text-align: center;
+    padding: 10px;
+    text-align: left;
+    color: #00BBD4;
+    border-bottom: solid 1px #00BBD4;
+    line-height: 1;
+    vertical-align: middle;
 }
 
 #grid td {
-    text-align: center;
-    line-height: 25px;
+    text-align: left;
+    line-height: 1;
     vertical-align: middle;
-    padding: 10px;
+    padding: 25px 10px;
 }
 
 #grid td.questao {
@@ -480,6 +532,23 @@ form:after {
     width: 25%;
     min-width: 255px;
 }
+
+#grid td a.editar{
+    background: url('../img/editar.png') center no-repeat;
+    width: 29px;
+    height: 29px;
+    display: block;
+    text-indent: -9999px;
+}
+
+#grid td a.deletar{
+    background: url('../img/remove_img.jpg') center no-repeat;
+    width: 29px;
+    height: 29px;
+    display: block;
+    text-indent: -9999px;
+}
+
 
 #paginacao {
     position: relative;

@@ -18,6 +18,7 @@ $consultaGrid  = odbc_exec($connect, $queryGrid);
 $resultadoGrid = odbc_num_rows($consultaGrid);
 ?>
 
+<div class="grid">
 <table id="grid" class="table-striped">
 
 	<thead>
@@ -52,8 +53,8 @@ while ($resultado = odbc_fetch_array($consultaGrid)) {
     // echo "<td>".$resultado['codProfessor']."</td>";
     // echo "<td>".$resultado['ativo']."</td>";
     echo "<td>" . strtoupper($resultado['dificuldade']) . "</td>";
-    echo "<td><a href='admin.php?page=form&codquestao=" . $resultado['codQuestao'] . "'>Editar</a></td>";
-    echo "<td><a href='admin.php?page=deleta&codquestao=" . $resultado['codQuestao'] . "'>Deletar</a></td>";
+    echo "<td><a href='admin.php?page=form&codquestao=" . $resultado['codQuestao'] . "' class='editar'>Editar</a></td>";
+    echo "<td><a href='admin.php?page=deleta&codquestao=" . $resultado['codQuestao'] . "' class='deletar'>Deletar</a></td>";
     echo "</tr>";
 }
 
@@ -61,6 +62,7 @@ while ($resultado = odbc_fetch_array($consultaGrid)) {
 ?>
 	</tbody>
 </table>
+</div>
 <div id="paginacao">
 <?php
 $queryPage    = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) ";

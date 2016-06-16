@@ -150,54 +150,59 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 			
 		</div>
 		<div class="alternativas dft" <?php
-if (!isset($_GET['codquestao'])) {
-    echo 'style=display:none;';
-}
-?>>
+			if (!isset($_GET['codquestao'])) {
+			    echo 'style=display:none;';
+			}
+			?>>
 			<?php
-if (isset($_GET['codquestao'])) {
-    $consultAlternativa = "SELECT * FROM alternativa WHERE codQuestao = " . $_GET['codquestao'] . " ORDER BY codAlternativa";
-    $resultAlternativa  = odbc_exec($connect, $consultAlternativa);
-    
-    while ($alternativas = odbc_fetch_array($resultAlternativa)) {
-        $opcao_certa = ($alternativas['correta']) ? $alternativas['codAlternativa'] : $opcao_certa;
-        $str_checked = $alternativas['correta'] ? 'checked' : '';
-        echo ('<input type="text" name="alternativas[]" class="form-control" value="' . $alternativas['textoAlternativa'] . '" /><input class="check_certa" value="' . $alternativas['correta'] . '" ' . $str_checked . ' type="radio" data-index="' . $alternativas['codAlternativa'] . '" name="alternativacerta" />');
-        
-    }
-}
-?>
+				if (isset($_GET['codquestao']) && !is_null($_GET['codquestao'])) {
+				    $consultAlternativa = "SELECT * FROM alternativa WHERE codQuestao = " . $_GET['codquestao'] . " ORDER BY codAlternativa";
+				    $resultAlternativa  = odbc_exec($connect, $consultAlternativa);
+				    
+				    while ($alternativas = odbc_fetch_array($resultAlternativa)) {
+				        $opcao_certa = ($alternativas['correta']) ? $alternativas['codAlternativa'] : $opcao_certa;
+				        $str_checked = $alternativas['correta'] ? 'checked' : '';
+				        echo ('<input type="text" name="alternativas[]" class="form-control" value="' . $alternativas['textoAlternativa'] . '" /><input class="check_certa" value="' . $alternativas['correta'] . '" ' . $str_checked . ' type="radio" data-index="' . $alternativas['codAlternativa'] . '" name="alternativacerta" />');
+				        
+				    }
+				}
+				?>
 			
-			<a href="javascript:void(0)" class="add alternativas">Adicionar Campo</a>
-			<a href="javascript:void(0)" class="deleteOpc">Remover Campo</a>
+			<a href="javascript:void(0)" class="add alternativas" title="Adicionar Campo">Adicionar Campo</a>
+			<a href="javascript:void(0)" class="deleteOpc" title="Remover Campo">Remover Campo</a>
 		</div>
-		<div class="texto_objetivo dft" style="display: none;">
+		<div class="texto_objetivo dft" <?php
+			if (!isset($_GET['codquestao'])) {
+			    echo 'style=display:none;';
+			}
+			?>>
 			<?php
-if (isset($_GET['codquestao'])) {
-    $consultAlternativa = "SELECT * FROM alternativa WHERE codQuestao = " . $_GET['codquestao'] . " ORDER BY codAlternativa";
-    $resultAlternativa  = odbc_exec($connect, $consultAlternativa);
-    while ($alternativas = odbc_fetch_array($resultAlternativa)) {
-        // $opcao_certa = 1;
-        echo ('<input type="text" name="alternativas[]" class="form-control" value="' . $alternativas['textoAlternativa'] . '" />');
-        
-    }
-}
-?>
+			if (isset($_GET['codquestao']) && !is_null($_GET['codquestao'])) {
+				    $consultAlternativa = "SELECT * FROM alternativa WHERE codQuestao = " . $_GET['codquestao'] . " ORDER BY codAlternativa";
+				    $resultAlternativa  = odbc_exec($connect, $consultAlternativa);
+				    while ($alternativas = odbc_fetch_array($resultAlternativa)) {
+				        // $opcao_certa = 1;
+				        echo ('<input type="text" name="alternativas[]" class="form-control" value="' . $alternativas['textoAlternativa'] . '" />');
+				        
+				    }
+				}
+				?>
+			
 			<a href="javascript:void(0)" class="add texto_objetivo">Adicionar Campo</a>
 			<a href="javascript:void(0)" class="deleteOpc">Remover Campo</a>
 		</div>		
 		<input type="hidden" value="<?php
-echo $opcao_certa;
-?>" name="opcao_certa" class="opcao_certa" >		
+		echo $opcao_certa;
+		?>" name="opcao_certa" class="opcao_certa" >		
 	</label>
 
     <label for="imagem">
 		Imagem da Questão:				
 		<?php
-if (!empty($imageData)) {
-    echo "<img width=\"50\" height=\"50\" src=\"data:image/jpeg;base64," . $imageData . "\">";
-}
-?>
+		if (!empty($imageData)) {
+		    echo "<img width=\"50\" height=\"50\" src=\"data:image/jpeg;base64," . $imageData . "\">";
+		}
+		?>
 		<input type="file" id="imagem" name="imagem">
 	</label>	
 

@@ -10,9 +10,9 @@ if (isset($_GET['logout']) && $_GET['logout'] == "1") {
     
 }
 
-include('integracao/loginFunc.php');
+// include('integracao/loginFunc.php');
 
-lidaBasicAuthentication('../../portal/naoautorizado.php');
+// lidaBasicAuthentication('../../portal/naoautorizado.php');
 
 if (!isset($_SESSION['codProfessor'])) {
     
