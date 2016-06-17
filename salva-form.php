@@ -26,6 +26,9 @@ include('conexao.php');
 // '1'
 // )
 
+
+$codQuestaoRecent = "";
+
 if ($_FILES['imagem']['size'] > 0) {
     
     $fileName = $_FILES['imagem']['name'];
@@ -33,9 +36,9 @@ if ($_FILES['imagem']['size'] > 0) {
     $fileSize = $_FILES['imagem']['size'];
     $fileType = $_FILES['imagem']['type'];
     
+  
     
-    
-    $fp      = fopen($tmpName, 'r');
+    $fp      = fopen($tmpName, 'rb');
     $content = fread($fp, filesize($tmpName));
     fclose($fp);
     
@@ -50,7 +53,7 @@ if ($_FILES['imagem']['size'] > 0) {
 
             
             
-            $queryQuestao  = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) WHERE codQuestao = " . $_GET['codquestao'] . "";
+            $queryQuestao  = "SELECT imagem.codImagem FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) WHERE codQuestao = " . $_GET['codquestao'] . "";
             $questao       = odbc_exec($connect, $queryQuestao);
             $linhasQuestao = odbc_fetch_array($questao);
             
@@ -127,7 +130,7 @@ if ($_FILES['imagem']['size'] > 0) {
         $paramsQuestao         = array(
             $_POST['txQuestao'],
             $_POST['codAssunto'],
-            $resultCodImagemScope,
+            $resultCodImagemScope['codImagem'],
             $_POST['codTipoQuestao'],
             $_SESSION['codProfessor'],
             1,
@@ -138,9 +141,11 @@ if ($_FILES['imagem']['size'] > 0) {
         $resultQuestao         = odbc_execute($prepQuestao, $paramsQuestao);
         $resultCodQuestaoScope = odbc_fetch_array($prepQuestao);
 
+        $codQuestaoRecent = $resultCodQuestaoScope['codQuestao'];
+
     }   
+
     
-    include('envia-alternativas.php');
     
 } else {
 
@@ -179,11 +184,15 @@ if ($_FILES['imagem']['size'] > 0) {
         $prepQuestao           = odbc_prepare($connect, $queryQuestao);
         $resultQuestao         = odbc_execute($prepQuestao, $paramsQuestao);
         $resultCodQuestaoScope = odbc_fetch_array($prepQuestao);
+
+        $codQuestaoRecent = $resultCodQuestaoScope['codQuestao'];
         
     }
-        
     
     include('envia-alternativas.php');
+    
 }
+
+
 
 ?>

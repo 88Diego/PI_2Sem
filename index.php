@@ -21,10 +21,10 @@ session_start();
 			<div>
 				<p class="error">
 					<?php
-if (isset($_SESSION['msgError']) && $_SESSION['msgError'] != NULL) {
-    echo $_SESSION['msgError'];
-}
-?>
+						if (isset($_SESSION['msgError']) && $_SESSION['msgError'] != NULL) {
+						    echo $_SESSION['msgError'];
+						}
+					?>
 				</p>
 			</div>			
 			<div>

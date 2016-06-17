@@ -44,13 +44,11 @@ if (isset($_GET['codquestao'])) {
 
 <?php
 
-$condition = (isset($_GET['codquestao'])) ? $condition = $_GET['codquestao'] : "";
+$condition = (isset($_GET['codquestao'])) ? '&codquestao='.$_GET['codquestao'] : "";
 
 ?>
 
-<form action=<?php
-echo 'admin.php?page=salva-form&codquestao=' . $condition . '';
-?> enctype="multipart/form-data" method="post" id="novo-edita" >
+<form action=<?php echo 'admin.php?page=salva-form' . $condition . ''; ?> enctype="multipart/form-data" method="post" id="novo-edita" >
 	<!-- <input type="hidden" id="id_questao" value="<?php
 echo $idQuestao;
 ?>"> -->
@@ -147,8 +145,8 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 			    echo ('<input type="radio" name="alternativas[]" value="0"> Falso');
 			}
 			?>
-			
 		</div>
+
 		<div class="alternativas dft" <?php
 			if (!isset($_GET['codquestao'])) {
 			    echo 'style=display:none;';
@@ -156,6 +154,7 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 			?>>
 			<?php
 				if (isset($_GET['codquestao']) && !is_null($_GET['codquestao'])) {
+
 				    $consultAlternativa = "SELECT * FROM alternativa WHERE codQuestao = " . $_GET['codquestao'] . " ORDER BY codAlternativa";
 				    $resultAlternativa  = odbc_exec($connect, $consultAlternativa);
 				    
@@ -171,6 +170,7 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 			<a href="javascript:void(0)" class="add alternativas" title="Adicionar Campo">Adicionar Campo</a>
 			<a href="javascript:void(0)" class="deleteOpc" title="Remover Campo">Remover Campo</a>
 		</div>
+
 		<div class="texto_objetivo dft" <?php
 			if (!isset($_GET['codquestao'])) {
 			    echo 'style=display:none;';
