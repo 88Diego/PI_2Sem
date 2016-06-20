@@ -74,8 +74,7 @@ body {
     font: 14px Arial;
     margin: 0 auto;
     padding: 0;
-    position: relative;
-    background-color: #00BBD4 !important;
+    background: transparent linear-gradient(141deg, #0FB8AD 0%, #1FC8DB 51%, #2CB5E8 75%) repeat scroll 0% 0%;
 }
 
 h1 {
@@ -161,7 +160,8 @@ form:after {
     width: 100%;
     max-width: 1024px !important;
     height: 100%;
-    background: transparent linear-gradient(141deg, #0FB8AD 0%, #1FC8DB 51%, #2CB5E8 75%) repeat scroll 0% 0%;
+    left: 50%;
+    margin-left: -512;
 }
 
 #content {
@@ -292,7 +292,7 @@ form:after {
     -ms-transition: all 0.5s ease;
     -o-transition: all 0.5s ease;
     transition: all 0.5s ease;
-    background: #ffffff url(../../../../../../xampp/htdocs/PI_2Sem-master/assets/img/icones.png) no-repeat;
+    background: #ffffff url(../img/icones.png) no-repeat;
     border: 1px solid #c1e5ea;
     color: #563D64;
     font: 13px Helvetica, Arial, sans-serif;
@@ -436,22 +436,13 @@ border: solid 1px #1FC8DB;
 }
 
 #novo-edita label .dft a {
-    display: table-cell;
     margin: 0 10px 0 0;
     float: none;
     clear: both;
-    text-indent: -9999px;
-    width: 29px;
     height: 28px;
+    display: inline-block;
 }
 
-#novo-edita label .dft a.add {
-    background: url(../img/add_img.png) center no-repeat;
-}
-
-#novo-edita label .dft a.deleteOpc {
-    background: url(../img/remove_img.jpg) center no-repeat;
-}
 
 #novo-edita label .dft:after {
     clear: both;
@@ -509,6 +500,7 @@ border: solid 1px #1FC8DB;
 .container.interna {
     background: #fff;
     height: inherit;
+    margin-left: -512;
 }
 
 #grid th {
@@ -542,7 +534,7 @@ border: solid 1px #1FC8DB;
 }
 
 #grid td a.deletar{
-    background: url('../img/remove_img.jpg') center no-repeat;
+    background: url('../img/remove.png') center no-repeat;
     width: 29px;
     height: 29px;
     display: block;
@@ -563,4 +555,27 @@ border: solid 1px #1FC8DB;
     text-align: center;
     padding: 20px;
     color: #00BBD4;
+}
+.manual #content{
+    position: relative;
+    left: 50%;
+    margin-left: -200px;
+    height: 270px;
+    margin-top: 10px;
+}
+.manual h1{
+    color: #385965;
+}
+#imgGrid{
+    background:url('../img/grid.png') center no-repeat;
+}
+#edicao{
+        background:url('../img/editar.png') center no-repeat;
+        width:30px; 
+        height:30px;
+}
+#del{
+        background:url('../img/remove.png') center no-repeat;
+        width:30px; 
+        height:30px;
 }

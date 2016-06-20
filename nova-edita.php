@@ -125,8 +125,10 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 			    $resultAlternativa  = odbc_exec($connect, $consultAlternativa);
 
 			    while ($alternativas = odbc_fetch_array($resultAlternativa)) {
+			    
 
 			        $opcao_certa = ($alternativas['correta']) ? $alternativas['codAlternativa'] : $opcao_certa;
+			        
 			        $str_checked = $alternativas['correta'] ? 'true' : '';
 			        
 			        echo ('<input class="check_certa" value="' . $alternativas['correta'] . '" ' . $str_checked . ' type="hidden" data-index="' . $alternativas['codAlternativa'] . '" name="alternativacerta" />');
@@ -135,6 +137,7 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 
 			    $conditionV = ($opcao_certa == 1)?"checked":"";
 			    $conditionF = ($opcao_certa == 0)?"checked":"";
+			   
 
 			    echo ('<input type="radio" name="alternativas[]" value="1" '.$conditionV.'> Verdadeiro');
 			    echo ('<input type="radio" name="alternativas[]" value="0" '.$conditionF.'> Falso');
@@ -180,10 +183,10 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 			if (isset($_GET['codquestao']) && !is_null($_GET['codquestao'])) {
 				    $consultAlternativa = "SELECT * FROM alternativa WHERE codQuestao = " . $_GET['codquestao'] . " ORDER BY codAlternativa";
 				    $resultAlternativa  = odbc_exec($connect, $consultAlternativa);
+
 				    while ($alternativas = odbc_fetch_array($resultAlternativa)) {
 				        // $opcao_certa = 1;
 				        echo ('<input type="text" name="alternativas[]" class="form-control" value="' . $alternativas['textoAlternativa'] . '" />');
-				        
 				    }
 				}
 				?>
@@ -224,7 +227,7 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 			} else if($('#tipoQuestao').val() == "T"){
 				$('.opcao_certa').val("");
 				$('.dft').hide();
-				$('#alternativas, .text_objetivo').show();
+				$('#alternativas, .texto_objetivo').show();
 			} else{
 				$('.opcao_certa').val("");
 				$('.dft').hide();
