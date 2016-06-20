@@ -6,6 +6,12 @@ include_once('session.php');
 
 
 <?php
+
+$_POST['alternativas'] = null;
+
+$iAlt = 0;
+
+
 if (isset($_GET['codquestao'])) {
     $idQuestao        = $_GET['codquestao'];
     $queryQuestao     = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) WHERE codQuestao = " . $idQuestao . "";
@@ -82,17 +88,17 @@ echo $idQuestao;
 		<select name="codTipoQuestao" id="tipoQuestao" class="form-control" required>
 			<option value="">Selecione o Tipo da Questão</option>
 			<?php
-while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
-?>
-	            <option value="<?php
-    echo $tipoQuestao['codTipoQuestao'];
-?>" <?= strtoupper($tipoQuestao['codTipoQuestao']) == (strtoupper($codTipoQuestao)) ? "selected" : "" ?> ><?php
-    echo $tipoQuestao['descricao'];
-?></option>
+				while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
+				?>
+					            <option value="<?php
+				    echo $tipoQuestao['codTipoQuestao'];
+				?>" <?= strtoupper($tipoQuestao['codTipoQuestao']) == (strtoupper($codTipoQuestao)) ? "selected" : "" ?> ><?php
+				    echo $tipoQuestao['descricao'];
+				?></option>
 
-	    <?php
-}
-?>
+					    <?php
+				}
+			?>
 	    </select>
 	</label>
 
@@ -114,13 +120,26 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 	
 	<label for="alternativas" id="alternativas" style="display: none;">
 		Alternativas:	
+		<?php 
+
+		if (isset($_GET['codquestao']) && !is_null($_GET['codquestao'])) {
+
+			$consultTipoAlternativa = "SELECT * FROM questao WHERE codQuestao = " . $_GET['codquestao'];
+		    $resultTipoAlternativa  = odbc_exec($connect, $consultTipoAlternativa);
+
+		    $tipoAlternativa = odbc_fetch_array($resultTipoAlternativa);
+
+
+	    }
+
+		?>
 		<div class="verdadeiro_falso dft" <?php
 			if (!isset($_GET['codquestao'])) {
 			    echo 'style=display:none;';
 			}
 			?>>
 			<?php
-			if (isset($_GET['codquestao']) && !is_null($_GET['codquestao'])) {
+			if (isset($_GET['codquestao']) && !is_null($_GET['codquestao']) && $tipoAlternativa['codTipoQuestao'] == "V") {
 			    $consultAlternativa = "SELECT * FROM alternativa WHERE codQuestao = " . $_GET['codquestao'] . " ORDER BY codAlternativa";
 			    $resultAlternativa  = odbc_exec($connect, $consultAlternativa);
 
@@ -130,6 +149,8 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 			        $opcao_certa = ($alternativas['correta']) ? $alternativas['codAlternativa'] : $opcao_certa;
 			        
 			        $str_checked = $alternativas['correta'] ? 'true' : '';
+
+			        $iAlt++;
 			        
 			        echo ('<input class="check_certa" value="' . $alternativas['correta'] . '" ' . $str_checked . ' type="hidden" data-index="' . $alternativas['codAlternativa'] . '" name="alternativacerta" />');
 			        
@@ -143,10 +164,11 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 			    echo ('<input type="radio" name="alternativas[]" value="0" '.$conditionF.'> Falso');
 			    
 
-			} else {
-			    echo ('<input type="radio" name="alternativas[]" value="1"> Verdadeiro');
-			    echo ('<input type="radio" name="alternativas[]" value="0"> Falso');
-			}
+			} 
+			// else {
+			//     echo ('<input type="radio" name="alternativas[]" value="1"> Verdadeiro');
+			//     echo ('<input type="radio" name="alternativas[]" value="0"> Falso');
+			// }
 			?>
 		</div>
 
@@ -156,13 +178,18 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 			}
 			?>>
 			<?php
-				if (isset($_GET['codquestao']) && !is_null($_GET['codquestao'])) {
+
+
+				if (isset($_GET['codquestao']) && !is_null($_GET['codquestao']) && $tipoAlternativa['codTipoQuestao'] == "A") {
 
 				    $consultAlternativa = "SELECT * FROM alternativa WHERE codQuestao = " . $_GET['codquestao'] . " ORDER BY codAlternativa";
 				    $resultAlternativa  = odbc_exec($connect, $consultAlternativa);
-				    
+
 				    while ($alternativas = odbc_fetch_array($resultAlternativa)) {
+				    	
 				        $opcao_certa = ($alternativas['correta']) ? $alternativas['codAlternativa'] : $opcao_certa;
+
+
 				        $str_checked = $alternativas['correta'] ? 'checked' : '';
 				        echo ('<input type="text" name="alternativas[]" class="form-control" value="' . $alternativas['textoAlternativa'] . '" /><input class="check_certa" value="' . $alternativas['correta'] . '" ' . $str_checked . ' type="radio" data-index="' . $alternativas['codAlternativa'] . '" name="alternativacerta" />');
 				        
@@ -180,23 +207,25 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 			}
 			?>>
 			<?php
-			if (isset($_GET['codquestao']) && !is_null($_GET['codquestao'])) {
+
+
+
+			if (isset($_GET['codquestao']) && !is_null($_GET['codquestao']) && $tipoAlternativa['codTipoQuestao'] == "T") {
+
 				    $consultAlternativa = "SELECT * FROM alternativa WHERE codQuestao = " . $_GET['codquestao'] . " ORDER BY codAlternativa";
 				    $resultAlternativa  = odbc_exec($connect, $consultAlternativa);
 
 				    while ($alternativas = odbc_fetch_array($resultAlternativa)) {
-				        // $opcao_certa = 1;
 				        echo ('<input type="text" name="alternativas[]" class="form-control" value="' . $alternativas['textoAlternativa'] . '" />');
 				    }
-				}
-				?>
+			}
+
+			?>
 			
 			<a href="javascript:void(0)" class="add texto_objetivo">Adicionar Campo</a>
 			<a href="javascript:void(0)" class="deleteOpc">Remover Campo</a>
 		</div>		
-		<input type="hidden" value="<?php
-		echo $opcao_certa;
-		?>" name="opcao_certa" class="opcao_certa" >		
+		<input type="hidden" value="<?php echo $opcao_certa; ?>" name="opcao_certa" class="opcao_certa" >		
 	</label>
 
     <label for="imagem">
@@ -216,6 +245,7 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 <script>
 	$(document).ready(function(){
 
+		var iAlt = <?php echo $iAlt; ?>;
 		var i = 0;
 
 		if($('#tipoQuestao').val() != ""){
@@ -225,7 +255,7 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 				$('.dft').hide();
 				$('#alternativas, .alternativas').show();
 			} else if($('#tipoQuestao').val() == "T"){
-				$('.opcao_certa').val("");
+				$('.opcao_certa').val("T");
 				$('.dft').hide();
 				$('#alternativas, .texto_objetivo').show();
 			} else{
@@ -235,19 +265,21 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 			}
 		}
 
+
 		$('#tipoQuestao').on('change', function(){			
-			i = 0;
+			i = 0;			
 			if(this.value == "A"){
 				$('.opcao_certa').val("");
 				$('.dft').hide();
-				$('.alternativas input').remove();
+				$('.alternativas input, .texto_objetivo input, .verdadeiro_falso input').remove();
 				$('#alternativas, .alternativas').show();
 			} else if(this.value == "T"){
-				$('.opcao_certa').val("");
+				$('.opcao_certa').val("T");
 				$('.dft').hide();
-				$('.texto_objetivo input').remove();
+				$('.texto_objetivo input, .alternativas input, .verdadeiro_falso input').remove();
 				$('#alternativas, .texto_objetivo').show();
 			} else{
+				$('.verdadeiro_falso').html('<input type="radio" name="alternativas[]" value="1"> Verdadeiro <input type="radio" name="alternativas[]" value="0"> Falso');
 				$('.opcao_certa').val("");
 				$('.dft').hide();
 				$('#alternativas, .verdadeiro_falso').show();
@@ -259,23 +291,22 @@ while ($tipoQuestao = odbc_fetch_array($resultQuestao)) {
 		$('#alternativas a').on('click', function(){
 		
 			if ($(this).hasClass('add')) {
-				i++;
+				iAlt++;				
 				if($(this).hasClass('alternativas')){
-					$(this).parent().prepend('<input type="text" name="alternativas[]" class="form-control" value="<?= (isset($txAlternativas)) ? "echo $txAlternativas;" : "" ?>"><input class="check_certa" type="radio" data-index="'+ i + '" name="alternativacerta">');
+					$(this).parent().prepend('<input type="text" name="alternativas[]" class="form-control" value="<?= (isset($txAlternativas)) ? "echo $txAlternativas;" : "" ?>"><input class="check_certa" type="radio" data-index="'+ iAlt + '" name="alternativacerta">');
 
 				} else{
 					$(this).parent().prepend('<input type="text" name="alternativas[]" class="form-control" value="<?= (isset($txObjetivo)) ? "echo $txObjetivo;" : "" ?>">');
-					$('.opcao_certa').val('1');
+					$('.opcao_certa').val('T');
 				}							
 			} else {				
 				$(this).parent().children('input').eq(0).remove();
 				$(this).parent().children('input').eq(0).remove();
-				i--;
+				iAlt--;
 			}
 		});
 
 		$('.alternativas').on('change', 'input[type=radio]', function(){
-			console.log($(this).data('index'));
 			$('.opcao_certa').val($(this).data('index'));
 		});
 		$('.verdadeiro_falso').on('change', 'input[type=radio]', function(){

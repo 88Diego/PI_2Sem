@@ -141,7 +141,7 @@ if ($_FILES['imagem']['size'] > 0) {
         $resultQuestao         = odbc_execute($prepQuestao, $paramsQuestao);
         $resultCodQuestaoScope = odbc_fetch_array($prepQuestao);
 
-        $codQuestaoRecent = $resultCodQuestaoScope['codQuestao'];
+        $_GET['codquestao'] = $resultCodQuestaoScope['codQuestao'];
 
     }   
 
@@ -185,7 +185,7 @@ if ($_FILES['imagem']['size'] > 0) {
         $resultQuestao         = odbc_execute($prepQuestao, $paramsQuestao);
         $resultCodQuestaoScope = odbc_fetch_array($prepQuestao);
 
-        $codQuestaoRecent = $resultCodQuestaoScope['codQuestao'];
+        $_GET['codquestao'] = $resultCodQuestaoScope['codQuestao'];
         
     }
     
