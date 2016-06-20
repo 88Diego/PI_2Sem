@@ -30,7 +30,8 @@ session_start();
 			<div>
 				<input type="submit" value="Logar" />
 			</div>
-		</form>		
+		</form>	
+		<div style="float:right;margin-right: 10px;"><a href="http://senaquiz.azurewebsites.net/2e/manual.html"> Ajuda</a></div>	
 	</section>
 </div>
 </body>

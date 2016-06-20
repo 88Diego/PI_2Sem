@@ -1,0 +1,130 @@
+<html>
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="assets/css/login.css" />
+		<link href="assets/css/bootstrap.min.css" rel="stylesheet">
+	</head>
+	<body>
+	<div class="container interna">
+		<div class="manual">
+		<h1>O Login</h1>
+		<p>&nbsp</p>
+		<p>Para acessar a pagina de cadastramento de questões é necessario efetuar o login.</p>
+		
+		<section id="content">
+		<form >
+			<h1>Login</h1>				
+			<div>
+				<input type="text" placeholder="Username" id="username" name="username"/>
+			</div>
+			<div>
+				<input type="password" placeholder="Password" id="password" name="password" />
+			</div>			
+				
+			<div>
+				<input type="submit" value="Logar" />
+			</div>
+		</form>
+		</section>
+		
+		<p>Para efetuar o login é necessario ter um email e senha cadastrados no sistema.<br/>
+		O campo "Username" deve ser preenchido com o email cadastrado no sistema.<br/>
+		O campo "Password" deve ser preenchido com a senha cadastrada no sistema.<br/>
+		Após o preenchimento destes campos você será redirecionado para a pagina de cadastramento das questões.</p>
+		<p>&nbsp</p>
+		<h1>O Menu</h1>
+		<p>&nbsp</p>
+		<p>Na parte superior da tela temos um menu com três itens, sendo: Cadastrar Nova Questão, Ver Tabela de Questões e Sair.</p>
+		<p>&nbsp</p>
+
+		<nav id="menuCrud">	
+			<a >Cadastrar Nova Questão</a>			
+			<a >Ver tabela de Questões</a>	
+			<a >Sair</a>
+		</nav>
+		<p>&nbsp</p>
+		<p>Clicando em "Cadastrar nova questão" você será redirecionado a pagina com o formulario para o cadastramento de uma nova questão.</p>
+		<p>Clicando em "Ver tabela de questões" você será redirecionado a pagina de listagem das questões onde é possivel editar e excluir a questão.</p>
+		<p>Clicando em "Sair" sera efetuado o logoff do sistema e você será redirecionado a pagina de login.</p>
+		<p>&nbsp</p>
+		<h1 >Uma Nova Questão</h1>
+		<p>&nbsp</p>
+		<p>Clicando em "Cadastrar nova questão" você será direcionado a pagina com o formulario de criação de uma nova questão.</p>
+		<form  id="novo-edita" >
+		    <label for="assunto" style="color:black">
+				Assunto da Questão:
+				<select name="codAssunto" id="assunto" class="form-control" required>
+					<option value="">Selecione o Assunto</option>
+				</select>
+			</label>
+			<label for="tipoQuestao" style="color:black">
+				Tipo da Questão:
+				<select name="codTipoQuestao" id="tipoQuestao" class="form-control" required>
+					<option value="">Selecione o Tipo da Questão</option>
+			    </select>
+			</label>
+			<label for="dificuldade" style="color:black">
+				Dificuldade da Questão:
+				<select name="dificuldade" id="dificuldade" class="form-control" required>
+					<option value="">Selecione a Dificuldade</option>
+				</select>
+			</label>
+			<label for="txQuestao" style="color:black">
+				Título da Questão:
+				<input type="text" id="txQuestao" name="txQuestao" class="form-control">
+			</label>
+		    <label for="imagem" style="color:black">
+				Imagem da Questão:				
+				<input type="file" id="imagem" name="imagem">
+			</label>	
+		</form>
+		<p>No campo "Assunto da questão" você deverá selecionar em uma lista de itens o assunto em que a sua questão ira se encaixar.<br/>
+		No campo "Tipo da questão" você deverá selecionar se a sua questão será do tipo "alternativa", "texto objetivo" ou "verdadeiro ou falso".<br/>
+		No campo "Dificuldade da questão" você deverá escolher a dificuldade da sua questão entre "Fácil", "Médio" e "Difícil".<br/>
+		No campo "Título da questão" você deverá preencher o título de sua questão<br/>
+		Para anexar uma imagem a sua questão, basta clicar em "Escolher um arquivo" que sera aberta uma nova janela onde você poderá selecionar uma imagem e finalizar o envio clicando em "Abrir"</p>
+		<p>&nbsp</p>
+		<p>&nbsp</p>
+		<h1>As alternativas</h1>
+		<p>&nbsp</p>
+		<p>Temos 3 tipos de alternativas disponíveis sendo: Alternativas, Texto objetivo e Verdadeiro ou Falso.<br/>
+		Cada qual trabalha de um modo diferente.</p>
+		<p>&nbsp</p>
+		<h3 style="text-align: left;color: #385965;">Verdadeiro ou falso</h3>
+		<input type="radio" name="alternativas[]" value="1"> Verdadeiro
+		<input type="radio" name="alternativas[]" value="0"> Falso
+		<p>Na modalidade verdadeiro ou flaso basta selecionar se a resposta da questão é verdadeira ou falsa</p>
+		<p>&nbsp</p>
+		<h3 style="text-align: left;color: #385965;">Texto Objetivo</h3>
+		<input type="text" name="alternativas[]" class="form-control">
+		<a href="javascript:void(0)" class="add texto_objetivo"><span style="font-weight:bold">Adicionar Campo</span></a>
+		<a href="javascript:void(0)" class="deleteOpc"><span style="font-weight:bold">Remover Campo</span></a>
+		<p>Na modalidade texto objetivo deve ser preenchido respostas que sejam validas como corretas.<br/>
+		Você pode adicionar mais campos clicando em "adicionar campo" para que mais respostas sejam cadastradas<br/>
+		Caso tenha adicionado campos acima do desejado, basta clicar em "remover campo" que o ultimo campo adicionado será removido</p>
+		<h3 style="text-align: left;color: #385965;">Alternativas</h3>
+		<input type="text" name="alternativas[]" class="form-control" style="width: 92%;display: block; float: left;" /><input class="check_certa" type="radio" name="alternativacerta" style="width: 4%; display: block; float: left; margin-top: 20px;" />
+		<a href="javascript:void(0)" class="add texto_objetivo"><span style=" font-weight:bold;display: inline-block;
+">Adicionar Campo</span></a>
+		<a href="javascript:void(0)" class="deleteOpc"><span style="font-weight:bold">Remover Campo</span></a>
+		<p>Na modalidade alternativa os campos devem ser preenchidos com uma resposta que seja correta e as de mais com respostas consideradas erradas<br/>
+		Para sinalizar a opção correta basta clicar no botão tipo "radio" na opção correta<br/>
+		Você pode adicionar mais campos clicando em "adicionar campo" para que mais respostas sejam cadastradas<br/>
+		Caso tenha adicionado campos acima do desejado, basta clicar em "remover campo" que o ultimo campo adicionado será removido</p>
+		<p>&nbsp</p>
+		<p>&nbsp</p>
+		<h1>O grid</h1>
+		<p>&nbsp</p>
+		<p>Cilcando no menu "ver tabela de questões" você será direcionado a pagina onde poderá ser visualizado todas as questões cadastradas</p>
+		<div id="imgGrid" style="width:100%; height:1350px;">
+		</div>
+		<p>No grid temos colunas com o título da questão, a imagem da questão, o tipo da questão, a dificuldade da questão, o link de edição e o link de exclusão.<br/>
+		Para editar a questão basta clicar no icone<div id="edicao"></div>
+		que você será redirecionado a pagina de edição da questão</p>
+		<p>Para deletar a questão basta clicar no icone<div id="del"></div>que a questão será deletada</p>
+		<p>No final do grid temos o link das paginas onde poderá ser visualizado o restante das questões</p>
+
+		
+	</div>
+	</body>
+</html>

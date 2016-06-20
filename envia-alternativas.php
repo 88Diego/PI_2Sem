@@ -1,14 +1,9 @@
 <?php 
 
-$i = 1;
+$i = 0;
 
 if (isset($_POST['alternativas'])) {
 
-    // if (isset($_GET['codquestao']) && !is_null($_GET['codquestao'])) {
-    //     $queryTipoPr  = "DELETE FROM alternativa WHERE codQuestao = " . $_GET['codquestao'] . "";
-    //     $tipoPr       = odbc_exec($connect, $queryTipoPr);
-    // }
-        // $_GET['codquestao'] = "";
         
         foreach ($_POST['alternativas'] as $key => $value) {
             
@@ -21,7 +16,7 @@ if (isset($_POST['alternativas'])) {
                 
                 if ($_SESSION['codProfessor'] == $linhasTipoPr['codProfessor'] || $_SESSION['tipoProfessor'] == 'A') {
                     
-                    $queryAlternativa = "UPDATE ALTERNATIVA SET textoAlternativa = ?, correta = ? WHERE codQuestao = " . $_GET['codquestao'] . " and codAlternativa = ?";
+                    $queryAlternativa = "UPDATE ALTERNATIVA SET textoAlternativa = ?, correta = ? WHERE codQuestao = " . $_GET['codquestao'] . " and codAlternativa = $key";
                 } else {
                     
                     echo '<p class="erro">Você não pode alterar as alternativas.</p>';
