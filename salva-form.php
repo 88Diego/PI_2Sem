@@ -5,10 +5,6 @@ include_once('session.php');
 ?>
 
 
-
-<div id="textos">
-Questão Salva
-</div>
 <?php
 
 // include('session.php');
@@ -103,6 +99,7 @@ if ($_FILES['imagem']['size'] > 0) {
             
             
             $resultQuestao = odbc_exec($connect, $queryQuestao);
+            echo '<p id="textos">Questão Salva.</p>';
             
         } else {
             echo '<p class="erro">Você não pode editar essa questão.';
@@ -141,7 +138,12 @@ if ($_FILES['imagem']['size'] > 0) {
         $resultQuestao         = odbc_execute($prepQuestao, $paramsQuestao);
         $resultCodQuestaoScope = odbc_fetch_array($prepQuestao);
 
+<<<<<<< HEAD
         $_GET['codquestao'] = $resultCodQuestaoScope['codQuestao'];
+=======
+        $codQuestaoRecent = $resultCodQuestaoScope['codQuestao'];
+        echo '<p id="textos">Questão Salva.</p>';
+>>>>>>> fd2f65e74c330f8a780e8e40aad350c6e259b72b
 
     }   
 
@@ -165,6 +167,7 @@ if ($_FILES['imagem']['size'] > 0) {
             
             
             $resultQuestao = odbc_exec($connect, $queryQuestao);
+            echo '<p id="textos">Questão Salva.</p>';
         } else {
             echo '<p class="erro">Você não pode editar essa questão.';
         }
@@ -185,7 +188,12 @@ if ($_FILES['imagem']['size'] > 0) {
         $resultQuestao         = odbc_execute($prepQuestao, $paramsQuestao);
         $resultCodQuestaoScope = odbc_fetch_array($prepQuestao);
 
+<<<<<<< HEAD
         $_GET['codquestao'] = $resultCodQuestaoScope['codQuestao'];
+=======
+        $codQuestaoRecent = $resultCodQuestaoScope['codQuestao'];
+        echo '<p id="textos">Questão Salva.</p>';
+>>>>>>> fd2f65e74c330f8a780e8e40aad350c6e259b72b
         
     }
     
