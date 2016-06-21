@@ -1,5 +1,5 @@
 <?php 
-
+//pagina que efetua o envio das alternativas
 $i = 1;
 
 
@@ -20,7 +20,7 @@ if (isset($_POST['alternativas'])) {
         $linhasTipoPr = odbc_fetch_array($tipoPr);
         
 
-        if ($_SESSION['codProfessor'] == $linhasTipoPr['codProfessor'] || $_SESSION['tipoProfessor'] == 'A') {
+        if ($_SESSION['codProfessor'] == $linhasTipoPr['codProfessor'] || $_SESSION['tipoProfessor'] == 'A') {//verifica se o professor pode editar as alternativas
 
 
             $queryAlternativa = "INSERT INTO ALTERNATIVA (codQuestao, codAlternativa, textoAlternativa, correta) VALUES (?, ?, ?, ?)";
@@ -33,15 +33,15 @@ if (isset($_POST['alternativas'])) {
         }
 
         
-        if ($_POST['opcao_certa'] == $i || $_POST['opcao_certa'] == 'T') {               
+        if ($_POST['opcao_certa'] == $i || $_POST['opcao_certa'] == 'T') {   //define qual a opção correta nas alternativas            
             
 
             $paramsAlternativa = array(
                 $_GET['codquestao'],
                 $i,
-                $value,
+                utf8_encode($value),
                 1
-            );
+            );//parametros da alternativa correta
 
 
         } 
@@ -49,9 +49,9 @@ if (isset($_POST['alternativas'])) {
             $paramsAlternativa = array(
                 $_GET['codquestao'],
                 $i,
-                $value,
+                utf8_encode($value),
                 0
-            );
+            );//parametros das alternativas erradas
         }
 
         if (isset($queryAlternativa) && $queryAlternativa != NULL) {
@@ -64,4 +64,4 @@ if (isset($_POST['alternativas'])) {
 
 } 
 
-    ?>
+?>

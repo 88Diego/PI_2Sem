@@ -1,5 +1,5 @@
 <?php
-
+//pagina contendo o formulario de edição e criação da questão
 include_once('session.php');
 
 ?>
@@ -12,7 +12,7 @@ $_POST['alternativas'] = null;
 $iAlt = 0;
 
 
-if (isset($_GET['codquestao'])) {
+if (isset($_GET['codquestao'])) {//caso exista o paramentro codquestao na url os dados da questão serão utilizados
     $idQuestao        = $_GET['codquestao'];
     $queryQuestao     = "SELECT * FROM questao LEFT JOIN imagem ON (questao.codImagem = imagem.codImagem) WHERE codQuestao = " . $idQuestao . "";
     $queryAlternativa = "SELECT q.codQuestao, q.textoQuestao, q.codAssunto, q.codTipoQuestao, a.textoAlternativa, a.correta FROM questao Q INNER JOIN alternativa A ON q.codQuestao = a.codQuestao";
@@ -22,8 +22,8 @@ if (isset($_GET['codquestao'])) {
     $arrayAlternativas = odbc_exec($connect, $queryAlternativa);
     $opcao_certa       = null;
     
-    while ($linhasQuestao = odbc_fetch_array($arrayQuestao)) {
-        $textoQuestao   = utf8_encode($linhasQuestao['textoQuestao']);
+    while ($linhasQuestao = odbc_fetch_array($arrayQuestao)) {//laço de preenchimento dos dados da quetão
+        $textoQuestao   = utf8_decode($linhasQuestao['textoQuestao']);
         $codAssunto     = $linhasQuestao['codAssunto'];
         $imageData      = base64_encode($linhasQuestao['bitmapImagem']);
         $codTipoQuestao = $linhasQuestao['codTipoQuestao'];
@@ -31,7 +31,7 @@ if (isset($_GET['codquestao'])) {
         $dificuldade    = $linhasQuestao['dificuldade'];
     }
     
-    while ($linhasAlternativas = odbc_fetch_array($arrayAlternativas)) {
+    while ($linhasAlternativas = odbc_fetch_array($arrayAlternativas)) {//laço de preenchimento dos dados das alternativas
         $codQuestaoAlter     = $linhasAlternativas['codQuestao'];
         $codAssuntoAlter     = $linhasAlternativas['codAssunto'];
         $codTipoQuestaoAlter = $linhasAlternativas['codTipoQuestao'];
@@ -67,10 +67,10 @@ echo $idQuestao;
 		<select name="codAssunto" id="assunto" class="form-control" required>
 			<option value="">Selecione o Assunto</option>
 			<?php
-				while ($opcoesAssunto = odbc_fetch_array($resultadoAssunto)) {
+				while ($opcoesAssunto = odbc_fetch_array($resultadoAssunto)) {//preenchimento do select de acordo com os dados puxados no banco
 				?>
 	                <option value="<?php echo $opcoesAssunto['codAssunto']; ?>" 
-	                	<?= ($opcoesAssunto['codAssunto'] == $codAssunto) ? "selected" : "" ?> >
+	                	<?= ($opcoesAssunto['codAssunto'] == $codAssunto) ? "selected" : "" ?> ><!--caso esteja sendo feita uma edição o dado anterior é selecionado-->
 	                	<?php echo utf8_encode($opcoesAssunto['descricao']); ?>
 	                </option>
 			<?php
@@ -165,10 +165,6 @@ echo $idQuestao;
 			    
 
 			} 
-			// else {
-			//     echo ('<input type="radio" name="alternativas[]" value="1"> Verdadeiro');
-			//     echo ('<input type="radio" name="alternativas[]" value="0"> Falso');
-			// }
 			?>
 		</div>
 
@@ -191,7 +187,7 @@ echo $idQuestao;
 
 
 				        $str_checked = $alternativas['correta'] ? 'checked' : '';
-				        echo ('<input type="text" name="alternativas[]" class="form-control" value="' . $alternativas['textoAlternativa'] . '" /><input class="check_certa" value="' . $alternativas['correta'] . '" ' . $str_checked . ' type="radio" data-index="' . $alternativas['codAlternativa'] . '" name="alternativacerta" />');
+				        echo ('<input type="text" name="alternativas[]" class="form-control" value="' . utf8_decode($alternativas['textoAlternativa']) . '" /><input class="check_certa" value="' . $alternativas['correta'] . '" ' . $str_checked . ' type="radio" data-index="' . $alternativas['codAlternativa'] . '" name="alternativacerta" />');
 				        
 				    }
 				}
@@ -216,7 +212,7 @@ echo $idQuestao;
 				    $resultAlternativa  = odbc_exec($connect, $consultAlternativa);
 
 				    while ($alternativas = odbc_fetch_array($resultAlternativa)) {
-				        echo ('<input type="text" name="alternativas[]" class="form-control" value="' . $alternativas['textoAlternativa'] . '" />');
+				        echo ('<input type="text" name="alternativas[]" class="form-control" value="' . utf8_decode($alternativas['textoAlternativa']) . '" />');
 				    }
 			}
 
@@ -242,6 +238,7 @@ echo $idQuestao;
 	
 
 </form>
+<!-- função que habilita as alternativas de acordo com o tipo de questão-->
 <script>
 	$(document).ready(function(){
 

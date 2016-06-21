@@ -1,4 +1,5 @@
-﻿<?php
+<?php
+//pagina de login do usuario
 session_start();
 ?>	
 <html>
